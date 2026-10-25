@@ -38,7 +38,7 @@ const SECCIONS: { titol: string; cos: string; correu?: boolean }[] = [
   },
   {
     titol: 'Cookies i serveis externs',
-    cos: "No s'utilitzen cookies de tercers, serveis d'anàlisi ni publicitat. Els mapes de les fitxes es carreguen d'OpenStreetMap, que rep l'adreça IP del dispositiu en mostrar-los.",
+    cos: "No s'utilitzen cookies de tercers ni publicitat. Per saber quantes visites té la web i com de ràpid carrega, s'usen Vercel Web Analytics i Speed Insights: no fan servir cookies ni identifiquen persones, i només recullen dades agregades i anònimes (pàgines vistes, tipus de dispositiu i temps de càrrega), mai dades personals ni resultats de tests. Els mapes de les fitxes es carreguen d'OpenStreetMap, que rep l'adreça IP del dispositiu en mostrar-los.",
   },
 ]
 
