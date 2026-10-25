@@ -1,0 +1,610 @@
+{
+ "_info": "Precios de primer curso (60 créditos, 1a matrícula) curso 2026-2027 recogidos a mano de webs oficiales. Lo usa scripts/update_data.py. Para añadir un centro: añade una regla. 'match' = todas las palabras deben aparecer en el nombre del grado; 'exclude' = ninguna debe aparecer. Se aplica la primera regla que coincide, así que las reglas más específicas van primero.",
+ "publica_credito": 17.69,
+ "publica_tasas_aprox": 140,
+ "publica_fuente": "Decret 96/2026 (DOGC 18/06/2026): 17,69 €/crèdit a totes les universitats públiques catalanes. https://universitats.gencat.cat/ca/acces-universitat/sobre-preus-beques/preus-estudis-universitaris/",
+ "fp": {
+  "publico_grado_basico": 0,
+  "publico_grado_medio": 0,
+  "publico_grado_superior": 360,
+  "publico_grado_superior_bonificado": 180,
+  "fuente": "Preu públic CFGS als centres del Departament d'Educació: 360 €/curs (180 € amb bonificació). CFGM i grau bàsic públics sense preu públic de matrícula (només quota de material del centre). Centres privats: preu propi."
+ },
+ "reglas": [
+  {
+   "centro": "ESCAC (UB, adscrito) – Terrassa",
+   "univ": "UB",
+   "match": [
+    "ESCAC"
+   ],
+   "curso": 13500,
+   "incluye_tasas": true,
+   "fuente": "https://escac.com/en/education/bachelor/grado-oficial-en-cinematografia/",
+   "nota": "Precio estimado por curso según ESCAC (2026-27): parte pública UB + parte Fundació ESCAC. Pago único. Requiere superar la PAP propia de ESCAC (abril o junio, ~110 €) además de la preinscripción. Campus: Plaça de la Farinera 9, Terrassa · 937 361 555 · info@escac.es. Tiene curso Foundation preuniversitario (exime de la PAP) y becas de la Fundació (hasta 100 %)."
+  },
+  {
+   "centro": "CITM (UPC, adscrito)",
+   "univ": "UPC",
+   "match": [
+    "Videojocs",
+    "Campus"
+   ],
+   "credito": 115,
+   "curso": 6900,
+   "fuente": "https://www.citm.upc.edu/ing/estudis/grau-videojocs-terrassa/"
+  },
+  {
+   "centro": "CITM (UPC, adscrito)",
+   "univ": "UPC",
+   "match": [
+    "Disseny, Animació i Art Digital"
+   ],
+   "credito": 115,
+   "curso": 6900,
+   "fuente": "https://www.citm.upc.edu/ing/estudis/grau-animacio/"
+  },
+  {
+   "centro": "CITM (UPC, adscrito)",
+   "univ": "UPC",
+   "match": [
+    "Disseny Digital i Tecnologies Multimèdia"
+   ],
+   "credito": 115,
+   "curso": 6900,
+   "fuente": "https://www.citm.upc.edu/"
+  },
+  {
+   "centro": "EUIT Terrassa (UAB, adscrito)",
+   "univ": "UAB",
+   "match": [
+    "EUIT"
+   ],
+   "credito": 115,
+   "curso": 7245.92,
+   "incluye_tasas": true,
+   "fuente": "https://euit.fdsll.cat/wp-content/uploads/2026/05/AF-TARIFES-GRAUS-2026.pdf"
+  },
+  {
+   "centro": "EUNCET (UPC, adscrito)",
+   "univ": "UPC",
+   "match": [
+    "EUNCET",
+    "semipresencial"
+   ],
+   "credito": 118,
+   "curso": 7080,
+   "fuente": "https://image.euncet.es/lib/fe2c11737364047d7c1276/m/1/1be8bacd-f686-4144-9573-634f237ffb2a.pdf"
+  },
+  {
+   "centro": "EUNCET (UPC, adscrito)",
+   "univ": "UPC",
+   "match": [
+    "EUNCET"
+   ],
+   "credito": 134,
+   "curso": 8040,
+   "fuente": "https://image.euncet.es/lib/fe2c11737364047d7c1276/m/1/1be8bacd-f686-4144-9573-634f237ffb2a.pdf"
+  },
+  {
+   "centro": "Tecnocampus (UPF, adscrito)",
+   "univ": "UPF",
+   "match": [
+    "Tecnocampus",
+    "Fisioteràpia",
+    "Activitat Física"
+   ],
+   "curso": 9286,
+   "incluye_tasas": true,
+   "fuente": "https://www.tecnocampus.cat/informacio-academica/preus-estudis-de-grau"
+  },
+  {
+   "centro": "Tecnocampus (UPF, adscrito)",
+   "univ": "UPF",
+   "match": [
+    "Tecnocampus",
+    "Videojocs",
+    "Informàtica"
+   ],
+   "curso": 8144,
+   "incluye_tasas": true,
+   "fuente": "https://www.tecnocampus.cat/informacio-academica/preus-estudis-de-grau"
+  },
+  {
+   "centro": "Tecnocampus (UPF, adscrito)",
+   "univ": "UPF",
+   "match": [
+    "Tecnocampus",
+    "Màrqueting",
+    "Turisme"
+   ],
+   "curso": 7192,
+   "incluye_tasas": true,
+   "fuente": "https://www.tecnocampus.cat/informacio-academica/preus-estudis-de-grau"
+  },
+  {
+   "centro": "Tecnocampus (UPF, adscrito)",
+   "univ": "UPF",
+   "match": [
+    "Tecnocampus",
+    "Administració",
+    "Turisme"
+   ],
+   "curso": 6569,
+   "incluye_tasas": true,
+   "fuente": "https://www.tecnocampus.cat/informacio-academica/preus-estudis-de-grau"
+  },
+  {
+   "centro": "Tecnocampus (UPF, adscrito)",
+   "univ": "UPF",
+   "match": [
+    "Tecnocampus",
+    "Administració",
+    "Màrqueting"
+   ],
+   "curso": 6584,
+   "incluye_tasas": true,
+   "fuente": "https://www.tecnocampus.cat/informacio-academica/preus-estudis-de-grau"
+  },
+  {
+   "centro": "Tecnocampus (UPF, adscrito)",
+   "univ": "UPF",
+   "match": [
+    "Tecnocampus",
+    "Administració",
+    "Anglès"
+   ],
+   "curso": 6794,
+   "incluye_tasas": true,
+   "fuente": "https://www.tecnocampus.cat/informacio-academica/preus-estudis-de-grau"
+  },
+  {
+   "centro": "Tecnocampus (UPF, adscrito)",
+   "univ": "UPF",
+   "match": [
+    "Tecnocampus",
+    "Intel·ligència Artificial"
+   ],
+   "curso": 7195,
+   "incluye_tasas": true,
+   "fuente": "https://www.tecnocampus.cat/informacio-academica/preus-estudis-de-grau"
+  },
+  {
+   "centro": "Tecnocampus (UPF, adscrito)",
+   "univ": "UPF",
+   "match": [
+    "Tecnocampus",
+    "Enginyeria"
+   ],
+   "curso": 6241,
+   "incluye_tasas": true,
+   "fuente": "https://www.tecnocampus.cat/informacio-academica/preus-estudis-de-grau"
+  },
+  {
+   "centro": "Tecnocampus (UPF, adscrito)",
+   "univ": "UPF",
+   "match": [
+    "Tecnocampus",
+    "Videojocs"
+   ],
+   "curso": 6800,
+   "incluye_tasas": true,
+   "fuente": "https://www.tecnocampus.cat/informacio-academica/preus-estudis-de-grau"
+  },
+  {
+   "centro": "Tecnocampus (UPF, adscrito)",
+   "univ": "UPF",
+   "match": [
+    "Tecnocampus",
+    "Mitjans Audiovisuals"
+   ],
+   "curso": 6800,
+   "incluye_tasas": true,
+   "fuente": "https://www.tecnocampus.cat/informacio-academica/preus-estudis-de-grau"
+  },
+  {
+   "centro": "Tecnocampus (UPF, adscrito)",
+   "univ": "UPF",
+   "match": [
+    "Tecnocampus",
+    "Activitat Física"
+   ],
+   "curso": 7213,
+   "incluye_tasas": true,
+   "fuente": "https://www.tecnocampus.cat/informacio-academica/preus-estudis-de-grau"
+  },
+  {
+   "centro": "Tecnocampus (UPF, adscrito)",
+   "univ": "UPF",
+   "match": [
+    "Tecnocampus",
+    "Fisioteràpia"
+   ],
+   "curso": 7190,
+   "incluye_tasas": true,
+   "fuente": "https://www.tecnocampus.cat/informacio-academica/preus-estudis-de-grau"
+  },
+  {
+   "centro": "Tecnocampus (UPF, adscrito)",
+   "univ": "UPF",
+   "match": [
+    "Tecnocampus",
+    "Infermeria"
+   ],
+   "curso": 6869,
+   "incluye_tasas": true,
+   "fuente": "https://www.tecnocampus.cat/informacio-academica/preus-estudis-de-grau"
+  },
+  {
+   "centro": "Tecnocampus (UPF, adscrito)",
+   "univ": "UPF",
+   "match": [
+    "Tecnocampus",
+    "Nutrició"
+   ],
+   "curso": 6816,
+   "incluye_tasas": true,
+   "fuente": "https://www.tecnocampus.cat/informacio-academica/preus-estudis-de-grau"
+  },
+  {
+   "centro": "Tecnocampus (UPF, adscrito)",
+   "univ": "UPF",
+   "match": [
+    "Tecnocampus"
+   ],
+   "curso": 6350,
+   "incluye_tasas": true,
+   "fuente": "https://www.tecnocampus.cat/informacio-academica/preus-estudis-de-grau"
+  },
+  {
+   "centro": "UManresa (UVic)",
+   "univ": "UVic",
+   "match": [
+    "Campus Manresa",
+    "Infermeria"
+   ],
+   "credito": 100.28,
+   "curso": 6016,
+   "fuente": "https://www.umanresa.cat/index.php/ca/estudis/graus/preus-beques-i-ajuts-dels-estudis-de-grau",
+   "nota": "Precio publicado por UManresa (puede ser del curso 2025-26)"
+  },
+  {
+   "centro": "UManresa (UVic)",
+   "univ": "UVic",
+   "match": [
+    "Campus Manresa",
+    "Fisioteràpia"
+   ],
+   "credito": 100.28,
+   "curso": 6016,
+   "fuente": "https://www.umanresa.cat/index.php/ca/estudis/graus/preus-beques-i-ajuts-dels-estudis-de-grau",
+   "nota": "Precio publicado por UManresa (puede ser del curso 2025-26)"
+  },
+  {
+   "centro": "UManresa (UVic)",
+   "univ": "UVic",
+   "match": [
+    "Campus Manresa",
+    "Podologia"
+   ],
+   "credito": 99.55,
+   "curso": 5973,
+   "fuente": "https://www.umanresa.cat/index.php/ca/estudis/graus/preus-beques-i-ajuts-dels-estudis-de-grau",
+   "nota": "Precio publicado por UManresa (puede ser del curso 2025-26)"
+  },
+  {
+   "centro": "UManresa (UVic)",
+   "univ": "UVic",
+   "match": [
+    "Campus Manresa",
+    "Educació Infantil"
+   ],
+   "credito": 88.38,
+   "curso": 5302,
+   "fuente": "https://www.umanresa.cat/index.php/ca/estudis/graus/preus-beques-i-ajuts-dels-estudis-de-grau",
+   "nota": "Precio publicado por UManresa (puede ser del curso 2025-26)"
+  },
+  {
+   "centro": "UManresa (UVic)",
+   "univ": "UVic",
+   "match": [
+    "Campus Manresa"
+   ],
+   "credito": 89.01,
+   "curso": 5340,
+   "fuente": "https://www.umanresa.cat/index.php/ca/estudis/graus/preus-beques-i-ajuts-dels-estudis-de-grau",
+   "nota": "Precio publicado por UManresa (puede ser del curso 2025-26)"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Medicina"
+   ],
+   "credito": 126,
+   "curso": 7560,
+   "fuente": "https://www.uvic.cat/grau/medicina",
+   "nota": "Precio con préstamo condonable de la Generalitat (sin él, 225 €/crédito)"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Odontologia"
+   ],
+   "credito": 225,
+   "curso": 13500,
+   "fuente": "https://www.uvic.cat/grau/odontologia"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Audiologia"
+   ],
+   "credito": 110,
+   "curso": 6600,
+   "fuente": "https://www.uvic.cat/grau/audiologia-general"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Activitat Física",
+    "Primària"
+   ],
+   "credito": 95.95,
+   "curso": 7052,
+   "fuente": "https://www.uvic.cat/grau/ciencies-de-lactivitat-fisica-i-de-lesport--mestre-deducacio-primaria-amb-mencio-en-educacio-fisica"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Fisioteràpia"
+   ],
+   "credito": 101.33,
+   "curso": 6079.8,
+   "fuente": "https://www.uvic.cat/grau/fisioterapia"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Infermeria"
+   ],
+   "exclude": [
+    "Sant Joan"
+   ],
+   "credito": 101.33,
+   "curso": 6079.8,
+   "fuente": "https://www.uvic.cat/grau/infermeria"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Educació Infantil"
+   ],
+   "credito": 86.2,
+   "curso": 5172,
+   "fuente": "https://www.uvic.cat/grau/mestre-deducacio-infantil"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Educació Primària"
+   ],
+   "credito": 86.2,
+   "curso": 5172,
+   "fuente": "https://www.uvic.cat/grau/mestre-deducacio-primaria"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Educació Social"
+   ],
+   "credito": 86.2,
+   "curso": 5172,
+   "fuente": "https://www.uvic.cat/grau/educacio-social"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Administració i Direcció"
+   ],
+   "credito": 90.95,
+   "curso": 5457,
+   "fuente": "https://www.uvic.cat/grau/administracio-i-direccio-dempreses"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Dret"
+   ],
+   "exclude": [
+    "ESERP"
+   ],
+   "credito": 90.95,
+   "curso": 5457,
+   "fuente": "https://www.uvic.cat/grau/dret"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Màrqueting i Comunicació Empresarial"
+   ],
+   "credito": 90.95,
+   "curso": 5457,
+   "fuente": "https://www.uvic.cat/grau/marqueting-i-comunicacio-empresarial"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Nutrició"
+   ],
+   "credito": 90.95,
+   "curso": 5457,
+   "fuente": "https://www.uvic.cat/grau/nutricio-humana-i-dietetica"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Teràpia Ocupacional"
+   ],
+   "credito": 90.95,
+   "curso": 5457,
+   "fuente": "https://www.uvic.cat/grau/terapia-ocupacional"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Biologia"
+   ],
+   "credito": 95.95,
+   "curso": 5757,
+   "fuente": "https://www.uvic.cat/grau/biologia"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Biomedicina"
+   ],
+   "credito": 95.95,
+   "curso": 5757,
+   "fuente": "https://www.uvic.cat/grau/biomedicina"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Biotecnologia"
+   ],
+   "credito": 95.95,
+   "curso": 5757,
+   "fuente": "https://www.uvic.cat/grau/biotecnologia"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Activitat Física"
+   ],
+   "credito": 95.95,
+   "curso": 5757,
+   "fuente": "https://www.uvic.cat/grau/ciencies-de-lactivitat-fisica-i-de-lesport"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Comunicació Audiovisual"
+   ],
+   "credito": 95.95,
+   "curso": 5757,
+   "fuente": "https://www.uvic.cat/grau/comunicacio-audiovisual"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Mecatrònica"
+   ],
+   "credito": 95.95,
+   "curso": 5757,
+   "fuente": "https://www.uvic.cat/grau/enginyeria-mecatronica"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Automoció"
+   ],
+   "credito": 95.95,
+   "curso": 5757,
+   "fuente": "https://www.uvic.cat/grau/enginyeria-de-lautomocio"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Global Studies"
+   ],
+   "credito": 95.95,
+   "curso": 5757,
+   "fuente": "https://www.uvic.cat/grau/global-studies"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Multimèdia"
+   ],
+   "credito": 95.95,
+   "curso": 5757,
+   "fuente": "https://www.uvic.cat/grau/multimedia-aplicacions-i-videojocs"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Periodisme"
+   ],
+   "credito": 95.95,
+   "curso": 5757,
+   "fuente": "https://www.uvic.cat/grau/periodisme"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Psicologia"
+   ],
+   "credito": 95.95,
+   "curso": 5757,
+   "fuente": "https://www.uvic.cat/grau/psicologia"
+  },
+  {
+   "centro": "UVic",
+   "univ": "UVic",
+   "match": [
+    "Publicitat"
+   ],
+   "credito": 95.95,
+   "curso": 5757,
+   "fuente": "https://www.uvic.cat/grau/publicitat-i-relacions-publiques"
+  }
+ ],
+ "sin_precio_localizado": [
+  "CETT (UB)",
+  "ENTI (UB)",
+  "Barcelona Culinary Hub (UB)",
+  "ESRP (UB)",
+  "EU Salesiana de Sarrià (UAB)",
+  "Eina (UAB)",
+  "Gimbernat (UAB)",
+  "Massana (UAB)",
+  "Sant Pau (UAB)",
+  "ESCI (UPF)",
+  "Escola Superior d'Infermeria del Mar (UPF)",
+  "ESIC (URV)",
+  "EUSES (URV/UdG)",
+  "IGEMA (URV)",
+  "ERAM (UdG)",
+  "Euroaula (UdG)",
+  "Mediterrani (UdG)",
+  "Centre Universitari EAE (UdL)",
+  "BAU (UVic)",
+  "ELISAVA (UVic)",
+  "ESERP (UVic)",
+  "Sant Joan de Déu (UVic)"
+ ]
+}

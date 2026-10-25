@@ -1,0 +1,68 @@
+[
+ {
+  "siglas": "UAB",
+  "nombre": "Universitat Autònoma de Barcelona",
+  "tipo": "Pública",
+  "num_grados": 111
+ },
+ {
+  "siglas": "UAO",
+  "nombre": "Universitat Abat Oliba CEU",
+  "tipo": "Privada",
+  "num_grados": 40
+ },
+ {
+  "siglas": "UB",
+  "nombre": "Universitat de Barcelona",
+  "tipo": "Pública",
+  "num_grados": 88
+ },
+ {
+  "siglas": "UIC",
+  "nombre": "Universitat Internacional de Catalunya",
+  "tipo": "Privada",
+  "num_grados": 20
+ },
+ {
+  "siglas": "UPC",
+  "nombre": "Universitat Politècnica de Catalunya",
+  "tipo": "Pública",
+  "num_grados": 71
+ },
+ {
+  "siglas": "UPF",
+  "nombre": "Universitat Pompeu Fabra",
+  "tipo": "Pública",
+  "num_grados": 50
+ },
+ {
+  "siglas": "URL",
+  "nombre": "Universitat Ramon Llull",
+  "tipo": "Privada",
+  "num_grados": 67
+ },
+ {
+  "siglas": "URV",
+  "nombre": "Universitat Rovira i Virgili",
+  "tipo": "Pública",
+  "num_grados": 67
+ },
+ {
+  "siglas": "UVic",
+  "nombre": "Universitat de Vic - Universitat Central de Catalunya",
+  "tipo": "Privada",
+  "num_grados": 41
+ },
+ {
+  "siglas": "UdG",
+  "nombre": "Universitat de Girona",
+  "tipo": "Pública",
+  "num_grados": 72
+ },
+ {
+  "siglas": "UdL",
+  "nombre": "Universitat de Lleida",
+  "tipo": "Pública",
+  "num_grados": 57
+ }
+]

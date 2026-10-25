@@ -1,0 +1,225 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: "Source Serif 4", "Iowan Old Style", Georgia, "Times New Roman", serif;
+
+  /* Paleta "paper i cuir": beix càlid amb tinta marró, com un quadern acadèmic. */
+  --color-canvas: #efe6d6;
+  --color-surface: #faf5ea;
+  --color-line: #ddccae;
+  --color-ink: #3b2a1a;
+  --color-muted: #6f5a3f;
+  --color-primary: #5a3a22;
+  --color-primary-hover: #432a18;
+  --color-primary-contrast: #faf5ea;
+  --color-accent: #a14a28;
+  --color-success: #3f6b34;
+  --color-success-bg: #e6eedb;
+  --color-warning: #8a5a16;
+  --color-warning-bg: #f5e8c9;
+  --color-info-bg: #e5d8bf;
+}
+
+.dark {
+  --color-canvas: #1c140d;
+  --color-surface: #261b12;
+  --color-line: #3c2c1d;
+  --color-ink: #f1e6d6;
+  --color-muted: #b89d7c;
+  --color-primary: #d1a26b;
+  --color-primary-hover: #e0b685;
+  --color-primary-contrast: #1c140d;
+  --color-accent: #e2896a;
+  --color-success: #84bd6d;
+  --color-success-bg: #20301c;
+  --color-warning: #e3b35f;
+  --color-warning-bg: #3a2a12;
+  --color-info-bg: #2c2015;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+  font-weight: 600;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+.skip-link:focus-visible {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 50;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Slider de rang amb dues nanses sobre la mateixa barra (vegeu RangeDualSlider). */
+.dual-range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  margin: 0;
+  background: transparent;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.dual-range::-webkit-slider-runnable-track {
+  background: transparent;
+}
+.dual-range::-moz-range-track {
+  background: transparent;
+}
+.dual-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  border: 2px solid var(--color-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  margin-top: 0;
+}
+.dual-range::-moz-range-thumb {
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  border: 2px solid var(--color-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+
+.leaflet-container {
+  font-family: var(--font-sans);
+  z-index: 0;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* Canvi de tema (clar/fosc) suau i uniforme a tota la pàgina alhora, no només en alguns
+   elements solts: per això s'aplica a *, no a una llista de selectors. Dins @layer base
+   perquè qualsevol transition-* de Tailwind (que viu a @layer utilities) el pugui
+   sobreescriure element per element en lloc de quedar silenciosament anul·lat per aquesta
+   regla universal (les capes CSS no es desempaten per especificitat). */
+@layer base {
+  @media (prefers-reduced-motion: no-preference) {
+    *,
+    *::before,
+    *::after {
+      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, fill 0.25s ease, stroke 0.25s ease;
+    }
+  }
+}
+
+/* Transicions discretes: respecten prefers-reduced-motion per accessibilitat. */
+@media (prefers-reduced-motion: no-preference) {
+  .page-fade {
+    animation: fade-in-up 0.3s ease both;
+  }
+
+  .fade-in {
+    animation: fade-in 0.2s ease both;
+  }
+
+  .stagger > * {
+    animation: fade-in-up 0.45s ease both;
+  }
+  .stagger > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger > *:nth-child(2) { animation-delay: 70ms; }
+  .stagger > *:nth-child(3) { animation-delay: 140ms; }
+  .stagger > *:nth-child(4) { animation-delay: 210ms; }
+  .stagger > *:nth-child(5) { animation-delay: 280ms; }
+  .stagger > *:nth-child(6) { animation-delay: 350ms; }
+  .stagger > *:nth-child(7) { animation-delay: 420ms; }
+  .stagger > *:nth-child(8) { animation-delay: 490ms; }
+  .stagger > *:nth-child(9) { animation-delay: 560ms; }
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--color-ink) 16%, var(--color-line));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-ink) 20%, transparent), transparent);
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes skeleton-shimmer {
+  100% { transform: translateX(100%); }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
