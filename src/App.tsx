@@ -1,5 +1,6 @@
 import { lazy } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Analytics } from '@vercel/analytics/react'
 import { AuthProvider } from './context/AuthContext'
 import { ThemeProvider } from './context/ThemeContext'
 import { ErrorBoundary } from './components/layout/ErrorBoundary'
@@ -62,6 +63,7 @@ export default function App() {
               </Route>
             </Routes>
           </BrowserRouter>
+          <Analytics />
         </AuthProvider>
       </ThemeProvider>
     </ErrorBoundary>
