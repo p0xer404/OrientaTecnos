@@ -85,3 +85,11 @@ export const IMATGES = {
 } satisfies Record<string, Imatge>
 
 export type NomImatge = keyof typeof IMATGES
+
+/** Foto representativa de cada tipus d'estudi (targetes i bàner del cercador). */
+export const IMATGE_PER_TIPUS: Record<'grau' | 'fp' | 'batxillerat' | 'artistic', NomImatge> = {
+  grau: 'graus',
+  fp: 'fp',
+  batxillerat: 'batxillerat',
+  artistic: 'artistic',
+}

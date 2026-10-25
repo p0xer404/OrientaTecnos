@@ -17,6 +17,10 @@ export default function AvisLegal() {
           Aquesta plataforma no substitueix la informació oficial de preinscripció. Davant de qualsevol dubte, consulteu sempre{' '}
           <a href="https://preinscripcio.gencat.cat" target="_blank" rel="noreferrer" className="text-primary underline">preinscripcio.gencat.cat</a>.
         </p>
+        <p>
+          Contacte:{' '}
+          <a href="mailto:paugual@escolatecnos.cat" className="text-primary underline">paugual@escolatecnos.cat</a>.
+        </p>
       </Card>
       <Card>
         <h2 className="text-base font-semibold text-ink">Crèdits de les imatges</h2>

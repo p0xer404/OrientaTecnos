@@ -1,6 +1,8 @@
 import { Card } from '../components/ui/Card'
 
-const SECCIONS = [
+const CORREU = 'paugual@escolatecnos.cat'
+
+const SECCIONS: { titol: string; cos: string; correu?: boolean }[] = [
   {
     titol: 'Responsable del tractament',
     cos: "El responsable del tractament de les dades d'aquesta plataforma d'orientació acadèmica és Pau Gual Ahmad, que l'ha desenvolupada per a l'alumnat de l'Escola Tecnos (Terrassa).",
@@ -20,6 +22,11 @@ const SECCIONS = [
   {
     titol: 'Menors de 14 anys',
     cos: 'Per registrar-se a la plataforma amb menys de 14 anys cal el consentiment dels pares o tutors legals, que es demana explícitament durant el registre.',
+  },
+  {
+    titol: 'Contacte',
+    cos: 'Per a qualsevol dubte sobre el tractament de dades, o per exercir els teus drets d\'accés, rectificació o supressió, escriu a paugual@escolatecnos.cat.',
+    correu: true,
   },
   {
     titol: 'Drets de les persones usuàries',
@@ -48,7 +55,16 @@ export default function Privacitat() {
             <span className="font-serif text-xl font-semibold text-accent">{String(i + 1).padStart(2, '0')}</span>
             <div>
               <h2 className="mb-1 text-base font-semibold text-ink">{s.titol}</h2>
-              <p className="text-sm text-muted">{s.cos}</p>
+              <p className="text-sm text-muted">
+                {s.correu ? (
+                  <>
+                    {s.cos.replace(CORREU + '.', '')}
+                    <a href={`mailto:${CORREU}`} className="text-primary underline">{CORREU}</a>.
+                  </>
+                ) : (
+                  s.cos
+                )}
+              </p>
             </div>
           </Card>
         ))}

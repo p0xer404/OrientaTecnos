@@ -14,7 +14,9 @@ import { Chip } from '../components/ui/Chip'
 import { Label, Select, TextInput, Checkbox, RangeDualSlider, RangeSlider } from '../components/ui/Forms'
 import { EstatBuit, EstatError } from '../components/ui/Misc'
 import { SkeletonCercador } from '../components/ui/Skeleton'
-import { IconPin } from '../components/ui/Icons'
+import { IconPin, IconSearch } from '../components/ui/Icons'
+import { Foto } from '../components/ui/Foto'
+import type { NomImatge } from '../lib/imatges'
 import { TargetaEstudi } from '../components/cercador/TargetaEstudi'
 import { SelectorLlistaModal } from '../components/llistes/SelectorLlistaModal'
 import type { EstudiQualsevol, EstudiTipus } from '../types/estudi'
@@ -37,6 +39,14 @@ const PESTANYES: { id: TipusTab; etiqueta: string }[] = [
   { id: 'batxillerat', etiqueta: 'Batxillerat' },
   { id: 'artistic', etiqueta: 'Ensenyaments artístics' },
 ]
+
+const BANNER: Record<TipusTab, { imatge: NomImatge; posicio: string; text: string }> = {
+  tots: { imatge: 'hero', posicio: '50% 30%', text: 'Graus, Formació Professional, Batxillerat i ensenyaments artístics de Catalunya.' },
+  grau: { imatge: 'graus', posicio: '50% 35%', text: 'Notes de tall, preus i places de les universitats catalanes.' },
+  fp: { imatge: 'fp', posicio: '50% 40%', text: 'Cicles de FP bàsica, mitjana i superior, amb mapa i dades de contacte.' },
+  batxillerat: { imatge: 'batxillerat', posicio: '50% 30%', text: 'Centres propers a Terrassa, modalitats i nivell de demanda.' },
+  artistic: { imatge: 'artistic', posicio: '50% 30%', text: 'Disseny, música, cinema, art dramàtic i dansa.' },
+}
 
 function unics(valors: (string | null)[]): string[] {
   return Array.from(new Set(valors.filter((v): v is string => Boolean(v && v.trim())))).sort((a, b) =>
@@ -272,30 +282,44 @@ export default function Cercador() {
   return (
     <div className="fade-in space-y-5">
       <div>
-        <h1 className="text-2xl font-semibold text-ink">Cercador acadèmic</h1>
-        <p className="text-sm text-muted">Graus, Formació Professional, Batxillerat i ensenyaments artístics de Catalunya.</p>
-      </div>
+        <section className="relative isolate overflow-hidden rounded-2xl bg-[#2a1a0e]">
+          <div key={tipusTab} className="fade-in absolute inset-0 -z-20">
+            <Foto nom={BANNER[tipusTab].imatge} prioritaria posicio={BANNER[tipusTab].posicio} />
+          </div>
+          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#2a1a0e]/90 via-[#2a1a0e]/65 to-[#2a1a0e]/25" aria-hidden="true" />
+          <div className="px-6 pb-12 pt-8 sm:px-10 sm:pb-14 sm:pt-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#f0c9a8]">Cercador</p>
+            <h1 className="mt-1 text-2xl font-semibold text-[#faf5ea] sm:text-3xl">
+              {PESTANYES.find((p) => p.id === tipusTab)?.etiqueta ?? 'Cercador acadèmic'}
+            </h1>
+            <p className="mt-2 max-w-xl text-sm text-[#efe6d6]">{BANNER[tipusTab].text}</p>
+          </div>
+        </section>
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <TextInput
-          placeholder="Cerca per nom, universitat, centre o municipi…"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          className="sm:max-w-md"
-          aria-label="Cerca un estudi"
-        />
-        <Button variant={apropTerrassa ? 'primary' : 'secondary'} mida="sm" onClick={() => setApropTerrassa((v) => !v)}>
-          <IconPin /> A prop de Terrassa
-        </Button>
-        <div className="sm:ml-auto flex items-center gap-2">
-          <Label htmlFor="ordre" className="mb-0 whitespace-nowrap">Ordena per</Label>
-          <Select id="ordre" value={ordre} onChange={(e) => setOrdre(e.target.value as Ordre)} className="w-auto">
-            <option value="rellevancia">Rellevància</option>
-            <option value="nota">Nota de tall</option>
-            <option value="preu">Preu</option>
-            <option value="places">Places</option>
-            <option value="distancia">Distància a Terrassa</option>
-          </Select>
+        <div className="relative z-10 -mt-7 mx-3 flex flex-col gap-3 rounded-xl border border-line bg-surface p-3 shadow-md sm:mx-6 sm:flex-row sm:items-center">
+          <div className="relative flex-1">
+            <IconSearch className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+            <TextInput
+              placeholder="Cerca per nom, universitat, centre o municipi…"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              className="!pl-10"
+              aria-label="Cerca un estudi"
+            />
+          </div>
+          <Button variant={apropTerrassa ? 'primary' : 'secondary'} mida="md" onClick={() => setApropTerrassa((v) => !v)}>
+            <IconPin /> A prop de Terrassa
+          </Button>
+          <div className="flex items-center gap-2">
+            <Label htmlFor="ordre" className="mb-0 whitespace-nowrap">Ordena per</Label>
+            <Select id="ordre" value={ordre} onChange={(e) => setOrdre(e.target.value as Ordre)} className="w-auto">
+              <option value="rellevancia">Rellevància</option>
+              <option value="nota">Nota de tall</option>
+              <option value="preu">Preu</option>
+              <option value="places">Places</option>
+              <option value="distancia">Distància a Terrassa</option>
+            </Select>
+          </div>
         </div>
       </div>
 

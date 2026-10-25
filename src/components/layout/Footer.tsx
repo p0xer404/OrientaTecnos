@@ -27,6 +27,7 @@ export function Footer() {
               <li><Link to="/avis-legal" className="hover:text-ink">Avís legal</Link></li>
               <li><a href="https://preinscripcio.gencat.cat" target="_blank" rel="noreferrer" className="hover:text-ink">Preinscripció (Generalitat)</a></li>
               <li><a href="https://universitats.gencat.cat" target="_blank" rel="noreferrer" className="hover:text-ink">Universitats de Catalunya</a></li>
+              <li><a href="mailto:paugual@escolatecnos.cat" className="hover:text-ink">Contacte: paugual@escolatecnos.cat</a></li>
             </ul>
           </div>
           <div>

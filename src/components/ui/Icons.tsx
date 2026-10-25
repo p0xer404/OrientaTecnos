@@ -45,6 +45,15 @@ export function IconChevronDown(props: SVGProps<SVGSVGElement>) {
   )
 }
 
+export function IconSearch(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} aria-hidden="true" {...props}>
+      <circle cx="11" cy="11" r="6.5" />
+      <path d="m20 20-4.2-4.2" />
+    </svg>
+  )
+}
+
 export function IconPin(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base} aria-hidden="true" {...props}>

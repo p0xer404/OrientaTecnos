@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import { Badge } from '../ui/Badge'
 import { Button } from '../ui/Button'
+import { Foto } from '../ui/Foto'
+import { IMATGE_PER_TIPUS } from '../../lib/imatges'
 import { formatKm, formatNota, formatPreu } from '../../lib/format'
 import type { EstudiQualsevol } from '../../types/estudi'
 
@@ -22,10 +24,15 @@ interface Props {
 
 export function TargetaEstudi({ estudi, onAfegirALlista, onAfegirAComparador, esAlComparador, etiquetaMatch, explicacioMatch }: Props) {
   return (
-    <div className="flex flex-col gap-3 rounded-lg border border-line bg-surface p-4 shadow-sm transition-[box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:shadow-md">
+    <div className="group flex flex-col overflow-hidden rounded-lg border border-line bg-surface shadow-sm transition-[box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:shadow-md">
+      <div className="skeleton relative h-24 shrink-0 !rounded-none">
+        <Foto nom={IMATGE_PER_TIPUS[estudi.tipus]} className="transition-transform duration-500 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#2a1a0e]/80 via-[#2a1a0e]/20 to-transparent" aria-hidden="true" />
+        <p className="absolute bottom-2 left-3 text-xs font-semibold uppercase tracking-[0.1em] text-[#faf5ea]">{ETIQUETA_TIPUS[estudi.tipus]}</p>
+      </div>
+      <div className="flex flex-1 flex-col gap-3 p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
-          <p className="text-xs font-medium text-muted">{ETIQUETA_TIPUS[estudi.tipus]}</p>
           <Link to={`/estudi/${estudi.id}`} className="font-serif text-base font-semibold text-ink hover:text-primary">
             {estudi.nom}
           </Link>
@@ -66,6 +73,7 @@ export function TargetaEstudi({ estudi, onAfegirALlista, onAfegirAComparador, es
             {esAlComparador ? '✓ Al comparador' : '+ Comparar'}
           </Button>
         )}
+      </div>
       </div>
     </div>
   )

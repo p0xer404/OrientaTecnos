@@ -22,7 +22,9 @@ export function SkeletonCard({ lines = 3, hasButton = false, className = '' }: {
 /** Targeta amb la mateixa silueta que TargetaEstudi (resultats de cerca/recomanacions). */
 export function SkeletonTargetaEstudi() {
   return (
-    <div className="flex flex-col gap-3 rounded-lg border border-line bg-surface p-4 shadow-sm">
+    <div className="flex flex-col overflow-hidden rounded-lg border border-line bg-surface shadow-sm">
+      <Skeleton className="h-24 w-full !rounded-none" />
+      <div className="flex flex-col gap-3 p-4">
       <div>
         <Skeleton className="mb-2 h-3 w-24" />
         <Skeleton className="mb-1.5 h-5 w-5/6" />
@@ -40,6 +42,7 @@ export function SkeletonTargetaEstudi() {
       <div className="mt-auto flex gap-2 pt-1">
         <Skeleton className="h-8 w-24" />
         <Skeleton className="h-8 w-20" />
+      </div>
       </div>
     </div>
   )
@@ -102,12 +105,8 @@ export function SkeletonCercador() {
   return (
     <div className="space-y-5">
       <div>
-        <Skeleton className="mb-2 h-3 w-40" />
-        <Skeleton className="h-7 w-72" />
-      </div>
-      <div className="flex gap-3">
-        <Skeleton className="h-10 w-full max-w-md" />
-        <Skeleton className="h-10 w-44" />
+        <Skeleton className="h-40 w-full !rounded-2xl sm:h-44" />
+        <Skeleton className="relative z-10 mx-3 -mt-7 h-16 !rounded-xl sm:mx-6" />
       </div>
       <Skeleton className="h-10 w-full max-w-xl" />
       <div className="grid gap-5 lg:grid-cols-[260px_1fr]">
@@ -347,12 +346,17 @@ export function SkeletonPerfil() {
 export function SkeletonGuia() {
   return (
     <div className="space-y-5">
-      <div className="space-y-2">
-        <Skeleton className="h-7 w-56" />
-        <Skeleton className="h-4 w-2/3" />
-      </div>
-      <div className="grid gap-4 sm:grid-cols-2">
-        {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} lines={2} />)}
+      <Skeleton className="h-36 w-full !rounded-2xl sm:h-44" />
+      <div className="space-y-3">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div key={i} className="flex items-center justify-between gap-4 rounded-lg border border-line bg-surface p-4 shadow-sm">
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-4 w-2/3" />
+              <Skeleton className="h-3 w-5/6" />
+            </div>
+            <Skeleton className="h-5 w-5 rounded-full" />
+          </div>
+        ))}
       </div>
     </div>
   )
