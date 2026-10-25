@@ -16,7 +16,7 @@ import { EstatBuit, EstatError } from '../components/ui/Misc'
 import { SkeletonCercador } from '../components/ui/Skeleton'
 import { IconPin, IconSearch } from '../components/ui/Icons'
 import { Foto } from '../components/ui/Foto'
-import type { NomImatge } from '../lib/imatges'
+import { assignarImatges, type NomImatge } from '../lib/imatges'
 import { TargetaEstudi } from '../components/cercador/TargetaEstudi'
 import { SelectorLlistaModal } from '../components/llistes/SelectorLlistaModal'
 import type { EstudiQualsevol, EstudiTipus } from '../types/estudi'
@@ -230,6 +230,7 @@ export default function Cercador() {
   const [paginacio, setPaginacio] = useState({ clau: clauResultats, visibles: PAGINA })
   const visibles = paginacio.clau === clauResultats ? paginacio.visibles : PAGINA
   const sentinella = useRef<HTMLDivElement>(null)
+  const imatgesTargetes = useMemo(() => assignarImatges(resultats.slice(0, visibles)), [resultats, visibles])
 
   function mostrarMes() {
     setPaginacio({ clau: clauResultats, visibles: visibles + PAGINA })
@@ -484,6 +485,7 @@ export default function Cercador() {
                   <TargetaEstudi
                     key={e.id}
                     estudi={e}
+                    imatge={imatgesTargetes.get(e.id)}
                     onAfegirAComparador={() => alternarComparador(e)}
                     esAlComparador={idsComparador.has(e.id)}
                     onAfegirALlista={perfil?.rol === 'alumne' ? () => setEstudiPerAfegir(e) : undefined}

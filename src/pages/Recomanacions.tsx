@@ -4,6 +4,7 @@ import { repo } from '../lib/repo'
 import { useAuth } from '../context/useAuth'
 import { useTotsEstudis } from '../data/useTotsEstudis'
 import { calcularMatch, desduplicarPerNom } from '../lib/match'
+import { assignarImatges } from '../lib/imatges'
 import { afegirAlComparador, treureDelComparador, useComparador } from '../lib/comparador'
 import { TargetaEstudi } from '../components/cercador/TargetaEstudi'
 import { SelectorLlistaModal } from '../components/llistes/SelectorLlistaModal'
@@ -56,6 +57,11 @@ export default function Recomanacions() {
     return perTipus
   }, [estudis, perfil, dominants, preferencies])
 
+  const imatges = useMemo(
+    () => assignarImatges(resultats ? SECCIONS.flatMap((s) => desduplicarPerNom(resultats[s.tipus]).slice(0, 6).map((r) => r.estudi)) : []),
+    [resultats],
+  )
+
   if (error) {
     return (
       <div className="fade-in space-y-5">
@@ -97,6 +103,7 @@ export default function Recomanacions() {
               <TargetaEstudi
                 key={estudi.id}
                 estudi={estudi}
+                imatge={imatges.get(estudi.id)}
                 etiquetaMatch={match.etiqueta}
                 explicacioMatch={match.explicacio}
                 onAfegirALlista={() => setEstudiPerAfegir(estudi)}

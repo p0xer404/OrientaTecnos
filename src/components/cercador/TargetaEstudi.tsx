@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { Badge } from '../ui/Badge'
 import { Button } from '../ui/Button'
 import { Foto } from '../ui/Foto'
-import { imatgePerEstudi } from '../../lib/imatges'
+import { imatgePerEstudi, type Imatge } from '../../lib/imatges'
 import { formatKm, formatNota, formatPreu } from '../../lib/format'
 import type { EstudiQualsevol } from '../../types/estudi'
 
@@ -20,13 +20,14 @@ interface Props {
   esAlComparador?: boolean
   etiquetaMatch?: string
   explicacioMatch?: string
+  imatge?: Imatge
 }
 
-export function TargetaEstudi({ estudi, onAfegirALlista, onAfegirAComparador, esAlComparador, etiquetaMatch, explicacioMatch }: Props) {
+export function TargetaEstudi({ estudi, onAfegirALlista, onAfegirAComparador, esAlComparador, etiquetaMatch, explicacioMatch, imatge }: Props) {
   return (
     <div className="group flex flex-col overflow-hidden rounded-lg border border-line bg-surface shadow-sm transition-[box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:shadow-md">
       <div className="skeleton relative h-24 shrink-0 !rounded-none">
-        <Foto imatge={imatgePerEstudi(estudi.tipus, estudi.id)} posicio="50% 30%" className="transition-transform duration-500 group-hover:scale-105" />
+        <Foto imatge={imatge ?? imatgePerEstudi(estudi.tipus, estudi.id)} posicio="50% 30%" className="transition-transform duration-500 group-hover:scale-105" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#2a1a0e]/80 via-[#2a1a0e]/20 to-transparent" aria-hidden="true" />
         <p className="absolute bottom-2 left-3 text-xs font-semibold uppercase tracking-[0.1em] text-[#faf5ea]">{ETIQUETA_TIPUS[estudi.tipus]}</p>
       </div>
