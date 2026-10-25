@@ -1,5 +1,5 @@
 import { Card } from '../components/ui/Card'
-import { IMATGES } from '../lib/imatges'
+import { totesLesImatges } from '../lib/imatges'
 
 export default function AvisLegal() {
   return (
@@ -27,14 +27,17 @@ export default function AvisLegal() {
         <p className="mt-1 text-sm text-muted">
           Les fotografies són d'estoc, publicades a Freepik (Magnific) amb llicència gratuïta que exigeix citar-ne l'autoria. S'allotgen en aquest mateix servidor.
         </p>
-        <ul className="mt-3 space-y-1 text-sm text-muted">
-          {Object.values(IMATGES).map((i) => (
+        <details className="mt-3 text-sm text-muted">
+          <summary className="cursor-pointer font-medium text-ink">Veure les {totesLesImatges().length} fotografies</summary>
+          <ul className="mt-2 space-y-1">
+          {totesLesImatges().map((i) => (
             <li key={i.fitxer}>
               <a href={i.font} target="_blank" rel="noreferrer" className="text-primary underline">{i.titol}</a>
               {' '}— {i.autor} / Freepik
             </li>
           ))}
-        </ul>
+          </ul>
+        </details>
       </Card>
     </div>
   )

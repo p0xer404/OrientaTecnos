@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import { IMATGES, type NomImatge } from '../../lib/imatges'
+import { IMATGES, type Imatge, type NomImatge } from '../../lib/imatges'
 
 interface Props {
-  nom: NomImatge
+  /** Foto principal de la web (per nom) o bé una foto concreta de la galeria. */
+  nom?: NomImatge
+  imatge?: Imatge
   /** Text alternatiu; buit (per defecte) si la foto és purament decorativa. */
   alt?: string
   className?: string
@@ -13,9 +15,9 @@ interface Props {
 }
 
 /** Foto d'estoc amb fons d'esquelet i aparició suau en carregar-se; omple el contenidor pare. */
-export function Foto({ nom, alt = '', className = '', prioritaria = false, posicio }: Props) {
+export function Foto({ nom, imatge, alt = '', className = '', prioritaria = false, posicio }: Props) {
   const [carregada, setCarregada] = useState(false)
-  const img = IMATGES[nom]
+  const img = imatge ?? IMATGES[nom ?? 'hero']
   return (
     <img
       src={img.fitxer}
