@@ -3,7 +3,7 @@ import { Card } from '../components/ui/Card'
 const SECCIONS = [
   {
     titol: 'Responsable del tractament',
-    cos: "Escola Tecnos (Terrassa), com a centre educatiu, és responsable de les dades tractades en aquesta plataforma d'orientació acadèmica.",
+    cos: "El responsable del tractament de les dades d'aquesta plataforma d'orientació acadèmica és Pau Gual Ahmad, que l'ha desenvolupada per a l'alumnat de l'Escola Tecnos (Terrassa).",
   },
   {
     titol: 'Finalitat',
@@ -26,8 +26,12 @@ const SECCIONS = [
     cos: 'Qualsevol alumne/a pot descarregar totes les seves dades o sol·licitar l\'eliminació completa del seu compte des de la pàgina "El meu perfil", sense necessitat de demanar-ho al centre.',
   },
   {
-    titol: 'Seguretat i tercers',
-    cos: 'No s\'utilitzen cookies de tercers, serveis d\'anàlisi ni publicitat. En mode demostració, les dades es desen únicament al navegador de l\'ordinador (localStorage) i no s\'envien a cap servidor.',
+    titol: 'On es guarden les dades',
+    cos: "Els comptes i les dades personals es guarden a Supabase (base de dades amb accés restringit: cada alumne/a només veu les seves dades, i el seu tutor/a, les del seu grup), i la web s'allotja a Vercel. Tots dos actuen com a encarregats del tractament. En mode demostració, les dades es desen únicament al navegador (localStorage) i no s'envien a cap servidor.",
+  },
+  {
+    titol: 'Cookies i serveis externs',
+    cos: "No s'utilitzen cookies de tercers, serveis d'anàlisi ni publicitat. Els mapes de les fitxes es carreguen d'OpenStreetMap, que rep l'adreça IP del dispositiu en mostrar-los.",
   },
 ]
 

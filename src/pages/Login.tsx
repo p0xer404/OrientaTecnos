@@ -6,6 +6,7 @@ import { Card } from '../components/ui/Card'
 import { Button } from '../components/ui/Button'
 import { Label, TextInput } from '../components/ui/Forms'
 import { LogoMark } from '../components/ui/Icons'
+import { Foto } from '../components/ui/Foto'
 import { SkeletonLogin } from '../components/ui/Skeleton'
 import { ESTA_EN_MODE_DEMO } from '../lib/repo'
 
@@ -37,18 +38,23 @@ export default function Login() {
 
   return (
     <div className="fade-in mx-auto grid max-w-4xl gap-10 py-6 lg:grid-cols-2 lg:items-center">
-      <div className="hidden lg:block">
-        <LogoMark className="h-10 w-10 text-primary" />
-        <p className="eyebrow mt-4">Benvingut/da de nou</p>
-        <h1 className="mt-1 text-3xl font-bold text-ink">Segueix on ho vas deixar</h1>
-        <p className="mt-3 max-w-sm text-muted">
-          Les teves llistes, els resultats dels tests i les recomanacions et tornen a esperar tal com els vas deixar.
-        </p>
-        <ul className="mt-6 space-y-3 border-l-2 border-accent pl-4 text-sm text-muted">
-          <li>Cap dada es comparteix amb ningú més que tu i el teu tutor/a.</li>
-          <li>Pots descarregar o esborrar les teves dades quan vulguis.</li>
-          <li>Res de xat ni d'intel·ligència artificial: només regles clares.</li>
-        </ul>
+      <div className="relative isolate hidden aspect-[3/4] overflow-hidden rounded-2xl bg-[#2a1a0e] lg:block">
+        <div className="absolute inset-0 -z-20">
+          <Foto nom="login" prioritaria />
+        </div>
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#2a1a0e]/90 via-[#2a1a0e]/35 to-transparent" aria-hidden="true" />
+        <div className="absolute inset-x-0 bottom-0 p-7">
+          <LogoMark className="h-9 w-9 text-[#f0c9a8]" />
+          <p className="mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-[#f0c9a8]">Benvingut/da de nou</p>
+          <h1 className="mt-1 text-3xl font-bold text-[#faf5ea]">Segueix on ho vas deixar</h1>
+          <p className="mt-2 text-sm text-[#efe6d6]">
+            Les teves llistes, els resultats dels tests i les recomanacions et tornen a esperar tal com els vas deixar.
+          </p>
+          <ul className="mt-4 space-y-2 border-l-2 border-[#f0c9a8] pl-4 text-sm text-[#efe6d6]">
+            <li>Cap dada es comparteix amb ningú més que tu i el teu tutor/a.</li>
+            <li>Pots descarregar o esborrar les teves dades quan vulguis.</li>
+          </ul>
+        </div>
       </div>
 
       <div>

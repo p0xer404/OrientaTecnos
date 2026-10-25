@@ -220,17 +220,30 @@ export function SkeletonOrientadorDashboard() {
 export function SkeletonHome() {
   return (
     <div className="space-y-16">
-      <section className="space-y-4 py-10 text-center">
-        <Skeleton className="mx-auto h-3 w-40" />
-        <Skeleton className="mx-auto h-9 w-3/4" />
-        <Skeleton className="mx-auto h-9 w-1/2" />
-        <div className="mx-auto max-w-2xl space-y-2 pt-2">
-          <Skeleton className="mx-auto h-4 w-full" />
-          <Skeleton className="mx-auto h-4 w-5/6" />
-        </div>
-        <div className="flex justify-center gap-3 pt-3">
+      <section className="skeleton flex flex-col items-center justify-center gap-4 !rounded-2xl px-5 py-16 sm:py-24">
+        <Skeleton className="h-3 w-40" />
+        <Skeleton className="h-9 w-3/4 max-w-xl" />
+        <Skeleton className="h-4 w-2/3 max-w-2xl" />
+        <div className="flex gap-3 pt-3">
           <Skeleton className="h-11 w-44" />
-          <Skeleton className="h-11 w-56" />
+          <Skeleton className="h-11 w-48" />
+        </div>
+      </section>
+      <section className="space-y-4">
+        <div className="space-y-2 text-center">
+          <Skeleton className="mx-auto h-3 w-32" />
+          <Skeleton className="mx-auto h-7 w-64" />
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="overflow-hidden rounded-lg border border-line bg-surface">
+              <Skeleton className="aspect-[4/3] w-full !rounded-none" />
+              <div className="space-y-2 p-4">
+                <Skeleton className="h-4 w-2/3" />
+                <Skeleton className="h-3 w-full" />
+              </div>
+            </div>
+          ))}
         </div>
       </section>
       <section className="grid gap-6 sm:grid-cols-2">
@@ -257,13 +270,7 @@ export function SkeletonHome() {
 export function SkeletonLogin() {
   return (
     <div className="mx-auto grid max-w-4xl gap-10 py-6 lg:grid-cols-2 lg:items-center">
-      <div className="hidden space-y-3 lg:block">
-        <Skeleton className="h-10 w-10 rounded-full" />
-        <Skeleton className="mt-3 h-3 w-40" />
-        <Skeleton className="h-8 w-3/4" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-5/6" />
-      </div>
+      <Skeleton className="hidden aspect-[3/4] w-full !rounded-2xl lg:block" />
       <div>
         <Skeleton className="mb-4 h-7 w-40 lg:hidden" />
         <SkeletonCard lines={2} hasButton />

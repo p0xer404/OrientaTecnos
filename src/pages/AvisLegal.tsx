@@ -1,4 +1,5 @@
 import { Card } from '../components/ui/Card'
+import { IMATGES } from '../lib/imatges'
 
 export default function AvisLegal() {
   return (
@@ -16,6 +17,20 @@ export default function AvisLegal() {
           Aquesta plataforma no substitueix la informació oficial de preinscripció. Davant de qualsevol dubte, consulteu sempre{' '}
           <a href="https://preinscripcio.gencat.cat" target="_blank" rel="noreferrer" className="text-primary underline">preinscripcio.gencat.cat</a>.
         </p>
+      </Card>
+      <Card>
+        <h2 className="text-base font-semibold text-ink">Crèdits de les imatges</h2>
+        <p className="mt-1 text-sm text-muted">
+          Les fotografies són d'estoc, publicades a Freepik (Magnific) amb llicència gratuïta que exigeix citar-ne l'autoria. S'allotgen en aquest mateix servidor.
+        </p>
+        <ul className="mt-3 space-y-1 text-sm text-muted">
+          {Object.values(IMATGES).map((i) => (
+            <li key={i.fitxer}>
+              <a href={i.font} target="_blank" rel="noreferrer" className="text-primary underline">{i.titol}</a>
+              {' '}— {i.autor} / Freepik
+            </li>
+          ))}
+        </ul>
       </Card>
     </div>
   )
