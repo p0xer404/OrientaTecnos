@@ -24,12 +24,16 @@ interface Props {
 }
 
 export function TargetaEstudi({ estudi, onAfegirALlista, onAfegirAComparador, esAlComparador, etiquetaMatch, explicacioMatch, imatge }: Props) {
+  const imatgeMostrada = imatge ?? imatgePerEstudi(estudi.tipus, estudi.id)
   return (
     <div className="group flex flex-col overflow-hidden rounded-lg border border-line bg-surface shadow-sm transition-[box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:shadow-md">
       <div className="skeleton relative h-24 shrink-0 !rounded-none">
-        <Foto imatge={imatge ?? imatgePerEstudi(estudi.tipus, estudi.id)} posicio="50% 30%" className="transition-transform duration-500 group-hover:scale-105" />
+        <Foto imatge={imatgeMostrada} posicio="50% 30%" className="transition-transform duration-500 group-hover:scale-105" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#2a1a0e]/80 via-[#2a1a0e]/20 to-transparent" aria-hidden="true" />
         <p className="absolute bottom-2 left-3 text-xs font-semibold uppercase tracking-[0.1em] text-[#faf5ea]">{ETIQUETA_TIPUS[estudi.tipus]}</p>
+        {imatgeMostrada.delCentre && (
+          <p className="absolute right-2 top-2 rounded bg-[#2a1a0e]/60 px-1.5 py-0.5 text-[10px] text-[#faf5ea]">Foto: web del centre</p>
+        )}
       </div>
       <div className="flex flex-1 flex-col gap-3 p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">

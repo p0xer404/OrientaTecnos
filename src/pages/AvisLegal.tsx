@@ -27,6 +27,10 @@ export default function AvisLegal() {
         <p className="mt-1 text-sm text-muted">
           Les fotografies són d'estoc, publicades a Freepik (Magnific) amb llicència gratuïta que exigeix citar-ne l'autoria. S'allotgen en aquest mateix servidor.
         </p>
+        <p className="mt-3 text-sm text-muted">
+          Algunes targetes mostren una fotografia presa de la web oficial del centre o de la universitat, que en conserva tots els drets. Es fa servir només per identificar l'estudi (s'indica a cada targeta) i s'ha de retirar si el titular ho demana: escriu a{' '}
+          <a href="mailto:paugual@escolatecnos.cat" className="text-primary underline">paugual@escolatecnos.cat</a>.
+        </p>
         <details className="mt-3 text-sm text-muted">
           <summary className="cursor-pointer font-medium text-ink">Veure les {totesLesImatges().length} fotografies</summary>
           <ul className="mt-2 space-y-1">

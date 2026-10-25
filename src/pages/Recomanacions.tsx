@@ -5,6 +5,7 @@ import { useAuth } from '../context/useAuth'
 import { useTotsEstudis } from '../data/useTotsEstudis'
 import { calcularMatch, desduplicarPerNom } from '../lib/match'
 import { assignarImatges } from '../lib/imatges'
+import { imatgeDelCentre, useImatgesCentres } from '../lib/imatgesCentres'
 import { afegirAlComparador, treureDelComparador, useComparador } from '../lib/comparador'
 import { TargetaEstudi } from '../components/cercador/TargetaEstudi'
 import { SelectorLlistaModal } from '../components/llistes/SelectorLlistaModal'
@@ -57,9 +58,14 @@ export default function Recomanacions() {
     return perTipus
   }, [estudis, perfil, dominants, preferencies])
 
+  const imatgesCentres = useImatgesCentres()
   const imatges = useMemo(
-    () => assignarImatges(resultats ? SECCIONS.flatMap((s) => desduplicarPerNom(resultats[s.tipus]).slice(0, 6).map((r) => r.estudi)) : []),
-    [resultats],
+    () =>
+      assignarImatges(
+        resultats ? SECCIONS.flatMap((s) => desduplicarPerNom(resultats[s.tipus]).slice(0, 6).map((r) => r.estudi)) : [],
+        (e) => imatgeDelCentre(e, imatgesCentres),
+      ),
+    [resultats, imatgesCentres],
   )
 
   if (error) {

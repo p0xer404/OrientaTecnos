@@ -17,6 +17,7 @@ import { SkeletonCercador } from '../components/ui/Skeleton'
 import { IconPin, IconSearch } from '../components/ui/Icons'
 import { Foto } from '../components/ui/Foto'
 import { assignarImatges, type NomImatge } from '../lib/imatges'
+import { imatgeDelCentre, useImatgesCentres } from '../lib/imatgesCentres'
 import { TargetaEstudi } from '../components/cercador/TargetaEstudi'
 import { SelectorLlistaModal } from '../components/llistes/SelectorLlistaModal'
 import type { EstudiQualsevol, EstudiTipus } from '../types/estudi'
@@ -230,7 +231,11 @@ export default function Cercador() {
   const [paginacio, setPaginacio] = useState({ clau: clauResultats, visibles: PAGINA })
   const visibles = paginacio.clau === clauResultats ? paginacio.visibles : PAGINA
   const sentinella = useRef<HTMLDivElement>(null)
-  const imatgesTargetes = useMemo(() => assignarImatges(resultats.slice(0, visibles)), [resultats, visibles])
+  const imatgesCentres = useImatgesCentres()
+  const imatgesTargetes = useMemo(
+    () => assignarImatges(resultats.slice(0, visibles), (e) => imatgeDelCentre(e, imatgesCentres)),
+    [resultats, visibles, imatgesCentres],
+  )
 
   function mostrarMes() {
     setPaginacio({ clau: clauResultats, visibles: visibles + PAGINA })

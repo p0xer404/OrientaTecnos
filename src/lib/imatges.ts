@@ -7,6 +7,8 @@ export interface Imatge {
   /** Pàgina original de la fotografia (per al crèdit). */
   font: string
   titol: string
+  /** Foto presa de la web oficial del centre (no és d'estoc). */
+  delCentre?: boolean
 }
 
 export const IMATGES = {
@@ -200,14 +202,22 @@ const ORDRE_PER_TIPUS = Object.fromEntries(
 ) as Record<keyof typeof GALERIA, Imatge[]>
 
 /**
- * Reparteix una foto a cada estudi recorrent, per tipus, l'ordre barrejat: així no es repeteix cap foto
- * fins que s'han vist totes les del tipus. Només depèn de l'ordre de la llista, de manera que en afegir
+ * Reparteix una foto a cada estudi: la de la web del seu centre si n'hi ha (`propia`) i, si no, una d'estoc
+ * recorrent, per tipus, l'ordre barrejat (no es repeteix cap foto fins que s'han vist totes les del tipus). Només depèn de l'ordre de la llista, de manera que en afegir
  * més resultats al final les fotos dels primers no canvien.
  */
-export function assignarImatges(estudis: { id: string; tipus: keyof typeof GALERIA }[]): Map<string, Imatge> {
+export function assignarImatges<E extends { id: string; tipus: keyof typeof GALERIA }>(
+  estudis: E[],
+  propia?: (e: E) => Imatge | null,
+): Map<string, Imatge> {
   const cursors: Record<string, number> = {}
   const assignades = new Map<string, Imatge>()
   for (const e of estudis) {
+    const delCentre = propia?.(e)
+    if (delCentre) {
+      assignades.set(e.id, delCentre)
+      continue
+    }
     const pool = ORDRE_PER_TIPUS[e.tipus]
     const i = cursors[e.tipus] ?? 0
     cursors[e.tipus] = i + 1
