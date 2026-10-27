@@ -152,8 +152,12 @@ export function desduplicarPerNom<T extends { estudi: EstudiQualsevol }>(llista:
   return resultat
 }
 
-export function calcularMatch(estudi: EstudiQualsevol, entrada: EntradaMatch): ResultatMatch {
-  const dominants = entrada.dominants.length > 0 ? entrada.dominants : dominantsDesDInteressos(entrada.interessos ?? [])
+function resoldreDominants(entrada: EntradaMatch): PerfilRiasec[] {
+  return entrada.dominants.length > 0 ? entrada.dominants : dominantsDesDInteressos(entrada.interessos ?? [])
+}
+
+/** Puntuació i parcials, sense generar el text d'explicació (és la part cara i només cal per als que es mostren). */
+function puntuar(estudi: EstudiQualsevol, entrada: EntradaMatch, dominants: PerfilRiasec[]): { puntuacio: number; parcials: ResultatMatch['parcials'] } {
   const riasec = afinitatRiasec(estudi, dominants)
   const nota = puntuacioNota(estudi, entrada.notaMitjana)
   // Sense preferències declarades, pressupost i distància no han de penalitzar (neutre 70).
@@ -167,13 +171,49 @@ export function calcularMatch(estudi: EstudiQualsevol, entrada: EntradaMatch): R
       ? Math.round(riasec * 0.5 + pressupost * 0.25 + distancia * 0.13 + preferencies * 0.12)
       : Math.round(riasec * 0.4 + nota * 0.2 + pressupost * 0.2 + distancia * 0.1 + preferencies * 0.1)
 
-  const parcials = { riasec, nota, pressupost, distancia, preferencies }
-  const puntuacioFinal = clamp(puntuacio)
+  return { puntuacio: clamp(puntuacio), parcials: { riasec, nota, pressupost, distancia, preferencies } }
+}
 
+function completar(estudi: EstudiQualsevol, entrada: EntradaMatch, dominants: PerfilRiasec[], p: ReturnType<typeof puntuar>): ResultatMatch {
   return {
-    puntuacio: puntuacioFinal,
-    etiqueta: etiquetaDe(puntuacioFinal),
-    explicacio: generarExplicacio(estudi, entrada, dominants, parcials),
-    parcials,
+    puntuacio: p.puntuacio,
+    etiqueta: etiquetaDe(p.puntuacio),
+    explicacio: generarExplicacio(estudi, entrada, dominants, p.parcials),
+    parcials: p.parcials,
   }
+}
+
+export function calcularMatch(estudi: EstudiQualsevol, entrada: EntradaMatch): ResultatMatch {
+  const dominants = resoldreDominants(entrada)
+  return completar(estudi, entrada, dominants, puntuar(estudi, entrada, dominants))
+}
+
+export interface Recomanacio {
+  estudi: EstudiQualsevol
+  match: ResultatMatch
+}
+
+/**
+ * Les `limit` millors recomanacions (sense repetir nom d'estudi) d'entre `estudis`. Puntua tota
+ * l'oferta però només genera l'explicació dels que es retornen: amb ~4.000 estudis, fer-ho per a
+ * tots alentia la pàgina de recomanacions, sobretot al mòbil.
+ */
+export function recomanar(estudis: EstudiQualsevol[], entrada: EntradaMatch, limit: number, puntuacioMinima = 40): Recomanacio[] {
+  const dominants = resoldreDominants(entrada)
+  const puntuats: { estudi: EstudiQualsevol; p: ReturnType<typeof puntuar> }[] = []
+  for (const estudi of estudis) {
+    const p = puntuar(estudi, entrada, dominants)
+    if (p.puntuacio >= puntuacioMinima) puntuats.push({ estudi, p })
+  }
+  puntuats.sort((a, b) => b.p.puntuacio - a.p.puntuacio)
+
+  const vistos = new Set<string>()
+  const resultat: Recomanacio[] = []
+  for (const { estudi, p } of puntuats) {
+    if (vistos.has(estudi.nom)) continue
+    vistos.add(estudi.nom)
+    resultat.push({ estudi, match: completar(estudi, entrada, dominants, p) })
+    if (resultat.length >= limit) break
+  }
+  return resultat
 }

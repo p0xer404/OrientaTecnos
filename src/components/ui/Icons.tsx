@@ -37,6 +37,14 @@ export function IconMenu(props: SVGProps<SVGSVGElement>) {
   )
 }
 
+export function IconClose(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} aria-hidden="true" {...props}>
+      <path d="M6 6l12 12M18 6 6 18" />
+    </svg>
+  )
+}
+
 export function IconChevronDown(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...base} width={14} height={14} aria-hidden="true" {...props}>

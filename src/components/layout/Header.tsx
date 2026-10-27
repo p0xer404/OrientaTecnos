@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/useAuth'
 import { useTheme } from '../../context/useTheme'
 import { destiPerPerfil } from '../../lib/nav'
 import { Button } from '../ui/Button'
-import { IconMenu, LogoMark } from '../ui/Icons'
+import { IconClose, IconMenu, LogoMark } from '../ui/Icons'
 import { ThemeSwitch } from './ThemeSwitch'
 import { UserMenu } from './UserMenu'
 
@@ -16,6 +16,13 @@ export function Header() {
   const { tema } = useTheme()
   const navigate = useNavigate()
   const [menuObert, setMenuObert] = useState(false)
+  // Es tanca en canviar de pàgina per qualsevol via (també amb el botó enrere del mòbil).
+  const location = useLocation()
+  const [rutaDelMenu, setRutaDelMenu] = useState(location.pathname)
+  if (rutaDelMenu !== location.pathname) {
+    setRutaDelMenu(location.pathname)
+    if (menuObert) setMenuObert(false)
+  }
 
   useEffect(() => {
     if (!menuObert) return
@@ -97,16 +104,25 @@ export function Header() {
 
         <button
           className="rounded-md p-2 text-ink xl:hidden"
-          aria-label="Obrir el menú"
+          aria-label={menuObert ? 'Tancar el menú' : 'Obrir el menú'}
           aria-expanded={menuObert}
+          aria-controls="menu-mobil"
           onClick={() => setMenuObert((v) => !v)}
         >
-          <IconMenu />
+          <span key={menuObert ? 'tanca' : 'obre'} className="fade-in block">
+            {menuObert ? <IconClose /> : <IconMenu />}
+          </span>
         </button>
       </div>
 
-      {menuObert && (
-        <nav aria-label="Navegació mòbil" className="flex flex-col gap-1 border-t border-line px-4 py-3 xl:hidden">
+      {/* Sempre muntat per poder animar l'obertura (alçada 0 → contingut); inert quan està tancat. */}
+      <div
+        id="menu-mobil"
+        inert={!menuObert}
+        className={`grid transition-[grid-template-rows,opacity] duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none xl:hidden ${menuObert ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+      >
+        <div className="overflow-hidden">
+        <nav aria-label="Navegació mòbil" className="flex flex-col gap-1 border-t border-line px-4 py-3">
           {enllaços.map((e) => (
             <NavLink key={e.to} to={e.to} className={ENLLAÇ} onClick={() => setMenuObert(false)}>
               {e.text}
@@ -136,7 +152,8 @@ export function Header() {
             </div>
           )}
         </nav>
-      )}
+        </div>
+      </div>
     </header>
   )
 }

@@ -5,6 +5,7 @@ import { destiPerPerfil } from '../lib/nav'
 import { Card } from '../components/ui/Card'
 import { SkeletonHome } from '../components/ui/Skeleton'
 import { Foto } from '../components/ui/Foto'
+import { Revelar } from '../components/ui/Revelar'
 import type { NomImatge } from '../lib/imatges'
 
 const FAQ: { pregunta: string; resposta: string }[] = [
@@ -44,10 +45,10 @@ export default function Home() {
     <div className="fade-in space-y-16">
       <section className="relative isolate overflow-hidden rounded-2xl bg-[#2a1a0e] text-center">
         <div className="absolute inset-0 -z-20">
-          <Foto nom="hero" prioritaria />
+          <Foto nom="hero" prioritaria className="zoom-lent" />
         </div>
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#2a1a0e]/70 via-[#2a1a0e]/75 to-[#2a1a0e]/90" aria-hidden="true" />
-        <div className="px-5 py-16 sm:px-10 sm:py-24">
+        <div className="stagger px-5 py-16 sm:px-10 sm:py-24">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#f0c9a8]">Escola Tecnos · Terrassa</p>
           <h1 className="mx-auto mt-3 max-w-3xl text-3xl font-bold text-[#faf5ea] sm:text-5xl">Tria els teus estudis amb confiança</h1>
           <p className="mx-auto mt-4 max-w-2xl text-[#efe6d6]">
@@ -71,6 +72,7 @@ export default function Home() {
         </div>
       </section>
 
+      <Revelar>
       <section>
         <p className="eyebrow text-center">Què pots estudiar</p>
         <h2 className="mb-6 mt-1 text-center text-2xl font-semibold text-ink">Quatre camins, un sol cercador</h2>
@@ -92,7 +94,9 @@ export default function Home() {
           ))}
         </div>
       </section>
+      </Revelar>
 
+      <Revelar>
       <section className="stagger grid gap-6 sm:grid-cols-2">
         <Card className="overflow-hidden !p-0 border-t-4 border-t-primary transition-[box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:shadow-md">
           <div className="skeleton aspect-[16/7] overflow-hidden rounded-none">
@@ -127,7 +131,9 @@ export default function Home() {
           </div>
         </Card>
       </section>
+      </Revelar>
 
+      <Revelar>
       <section>
         <p className="eyebrow text-center">Dubtes habituals</p>
         <h2 className="mb-4 mt-1 text-center text-2xl font-semibold text-ink">Preguntes freqüents</h2>
@@ -149,6 +155,7 @@ export default function Home() {
           ))}
         </div>
       </section>
+      </Revelar>
     </div>
   )
 }

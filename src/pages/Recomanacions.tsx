@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { repo } from '../lib/repo'
 import { useAuth } from '../context/useAuth'
 import { useTotsEstudis } from '../data/useTotsEstudis'
-import { calcularMatch, desduplicarPerNom } from '../lib/match'
+import { recomanar, type Recomanacio } from '../lib/match'
 import { assignarImatges } from '../lib/imatges'
 import { imatgeDelCentre, useImatgesCentres } from '../lib/imatgesCentres'
 import { afegirAlComparador, treureDelComparador, useComparador } from '../lib/comparador'
@@ -33,36 +33,51 @@ export default function Recomanacions() {
   const comparadorActual = useComparador()
   const idsComparador = useMemo(() => new Set(comparadorActual.map((i) => i.id)), [comparadorActual])
 
+  // Fins que no arriben els resultats dels tests no es calcula res: si no, primer es mostraven
+  // recomanacions sense perfil RIASEC i, un instant després, unes altres de diferents.
+  const [carregantTests, setCarregantTests] = useState(true)
+  const [errorTests, setErrorTests] = useState(false)
+
   useEffect(() => {
     if (!perfil) return
-    repo.ultimResultat(perfil.id, 'riasec').then((r) => {
-      if (r) setDominants((r.resultat as ResultatRiasec).dominants)
-      else setFeTestRiasec(false)
-    })
-    repo.ultimResultat(perfil.id, 'preferencies').then((r) => {
-      if (r) setPreferencies(r.resultat as ResultatPreferencies)
-    })
+    let viu = true
+    setCarregantTests(true)
+    setErrorTests(false)
+    Promise.all([repo.ultimResultat(perfil.id, 'riasec'), repo.ultimResultat(perfil.id, 'preferencies')])
+      .then(([riasec, prefs]) => {
+        if (!viu) return
+        setDominants(riasec ? (riasec.resultat as ResultatRiasec).dominants : [])
+        setFeTestRiasec(Boolean(riasec))
+        setPreferencies(prefs ? (prefs.resultat as ResultatPreferencies) : null)
+      })
+      .catch(() => viu && setErrorTests(true))
+      .finally(() => viu && setCarregantTests(false))
+    return () => {
+      viu = false
+    }
   }, [perfil])
 
   const resultats = useMemo(() => {
-    if (!estudis || !perfil) return null
+    if (!estudis || !perfil || carregantTests) return null
     const mostrarBatx = perfil.cursActual === '4t ESO'
-    const calculats = estudis
-      .filter((e) => (mostrarBatx ? true : e.tipus !== 'batxillerat'))
-      .map((e) => ({ estudi: e, match: calcularMatch(e, { notaMitjana: perfil.notaMitjana, dominants, preferencies, interessos: perfil.interessos }) }))
-      .filter((r) => r.match.puntuacio >= 40)
-      .sort((a, b) => b.match.puntuacio - a.match.puntuacio)
-
-    const perTipus: Record<EstudiTipus, typeof calculats> = { grau: [], fp: [], batxillerat: [], artistic: [] }
-    for (const r of calculats) perTipus[r.estudi.tipus].push(r)
+    const entrada = { notaMitjana: perfil.notaMitjana, dominants, preferencies, interessos: perfil.interessos }
+    const perTipus: Record<EstudiTipus, Recomanacio[]> = { grau: [], fp: [], batxillerat: [], artistic: [] }
+    for (const s of SECCIONS) {
+      if (s.tipus === 'batxillerat' && !mostrarBatx) continue
+      perTipus[s.tipus] = recomanar(
+        estudis.filter((e) => e.tipus === s.tipus),
+        entrada,
+        6,
+      )
+    }
     return perTipus
-  }, [estudis, perfil, dominants, preferencies])
+  }, [estudis, perfil, dominants, preferencies, carregantTests])
 
   const imatgesCentres = useImatgesCentres()
   const imatges = useMemo(
     () =>
       assignarImatges(
-        resultats ? SECCIONS.flatMap((s) => desduplicarPerNom(resultats[s.tipus]).slice(0, 6).map((r) => r.estudi)) : [],
+        resultats ? SECCIONS.flatMap((s) => resultats[s.tipus].map((r) => r.estudi)) : [],
         (e) => imatgeDelCentre(e, imatgesCentres),
       ),
     [resultats, imatgesCentres],
@@ -88,7 +103,12 @@ export default function Recomanacions() {
         <p className="text-sm text-muted">Calculades amb regles (sense intel·ligència artificial) a partir del teu perfil, els teus tests i les teves preferències.</p>
       </div>
 
-      {!feTestRiasec && (
+      {errorTests && (
+        <Card className="bg-warning-bg">
+          <p className="text-sm text-warning">No s'han pogut carregar els resultats dels teus tests: les recomanacions es calculen només amb el teu perfil.</p>
+        </Card>
+      )}
+      {!feTestRiasec && !errorTests && (
         <Card className="bg-info-bg">
           <p className="text-sm text-primary">Encara no has fet el test d'interessos (RIASEC). Fes-lo per obtenir recomanacions més precises.</p>
           <Link to="/tests/riasec"><Button mida="sm" className="mt-2">Fer el test ara</Button></Link>
@@ -105,7 +125,7 @@ export default function Recomanacions() {
         <div key={s.tipus}>
           <h2 className="mb-3 text-lg font-semibold text-ink">{s.titol}</h2>
           <div className="grid gap-4 sm:grid-cols-2">
-            {desduplicarPerNom(resultats[s.tipus]).slice(0, 6).map(({ estudi, match }) => (
+            {resultats[s.tipus].map(({ estudi, match }) => (
               <TargetaEstudi
                 key={estudi.id}
                 estudi={estudi}

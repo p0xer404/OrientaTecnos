@@ -165,7 +165,7 @@ a {
 /* Transicions discretes: respecten prefers-reduced-motion per accessibilitat. */
 @media (prefers-reduced-motion: no-preference) {
   .page-fade {
-    animation: fade-in-up 0.3s ease both;
+    animation: fade-in-up 0.38s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
 
   .fade-in {
@@ -184,6 +184,72 @@ a {
   .stagger > *:nth-child(7) { animation-delay: 420ms; }
   .stagger > *:nth-child(8) { animation-delay: 490ms; }
   .stagger > *:nth-child(9) { animation-delay: 560ms; }
+}
+
+/* Animacions d'entrada i sortida. Tot dins de no-preference: amb "reduir moviment" activat
+   els elements apareixen directament, sense desplaçaments. */
+@media (prefers-reduced-motion: no-preference) {
+  .modal-fons[data-estat='obert'] { animation: fade-in 0.18s ease-out both; }
+  .modal-fons[data-estat='tancat'] { animation: fade-out 0.18s ease-in both; }
+  .modal-panell[data-estat='obert'] { animation: panell-entra 0.24s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  .modal-panell[data-estat='tancat'] { animation: panell-surt 0.16s ease-in both; }
+
+  /* Fotos de capçalera: s'acosten lentament en carregar, com un travelling suau. */
+  .zoom-lent { animation: zoom-lent 1.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+  /* Seccions que apareixen en fer scroll (vegeu useRevelar). */
+  .revelar {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .revelar.revelat {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Barres i avisos que pugen des de baix (barra del comparador). */
+  .entra-baix { animation: entra-baix 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  /* Missatges d'estat que baixen lleugerament. */
+  .entra-dalt { animation: entra-dalt 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-fons[data-estat='tancat'] { opacity: 0; }
+}
+
+@media print {
+  .revelar { opacity: 1 !important; transform: none !important; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes panell-entra {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes panell-surt {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateY(6px) scale(0.98); }
+}
+
+@keyframes zoom-lent {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+
+@keyframes entra-baix {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes entra-dalt {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
 }
 
 .skeleton {

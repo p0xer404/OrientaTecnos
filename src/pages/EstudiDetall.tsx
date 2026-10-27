@@ -16,15 +16,17 @@ import { TargetaEstudi } from '../components/cercador/TargetaEstudi'
 import { SelectorLlistaModal } from '../components/llistes/SelectorLlistaModal'
 import { IconGlobe, IconMail, IconPhone } from '../components/ui/Icons'
 import type { EstudiQualsevol } from '../types/estudi'
+import { separarFont, textWeb, urlExterna } from '../lib/url'
 import NotFound from './NotFound'
 
-function ContacteCentre({ telefono, email, web }: { telefono?: string | null; email?: string | null; web?: string | null }) {
+function ContacteCentre({ telefono, email, web: webOriginal }: { telefono?: string | null; email?: string | null; web?: string | null }) {
+  const web = urlExterna(webOriginal)
   if (!telefono && !email && !web) return <p className="text-sm text-muted">Consulta-ho al centre.</p>
   return (
     <ul className="space-y-2 text-sm">
       {telefono && <li className="flex items-center gap-2"><IconPhone className="shrink-0 text-muted" /><a className="text-primary underline" href={`tel:${telefono}`}>{telefono}</a></li>}
       {email && <li className="flex items-center gap-2"><IconMail className="shrink-0 text-muted" /><a className="text-primary underline" href={`mailto:${email}`}>{email}</a></li>}
-      {web && <li className="flex items-center gap-2"><IconGlobe className="shrink-0 text-muted" /><a className="text-primary underline" href={web} target="_blank" rel="noreferrer">{web}</a></li>}
+      {web && <li className="flex items-center gap-2"><IconGlobe className="shrink-0 text-muted" /><a className="text-primary underline" href={web} target="_blank" rel="noreferrer">{textWeb(web)}</a></li>}
     </ul>
   )
 }
@@ -109,7 +111,7 @@ export default function EstudiDetall() {
             {esAlComparador ? '✓ Al comparador' : '+ Afegir al comparador'}
           </Button>
         </div>
-        {missatge && <p role="status" className="fade-in mt-2 text-sm text-primary">{missatge}</p>}
+        {missatge && <p role="status" className="entra-dalt mt-2 text-sm text-primary">{missatge}</p>}
       </div>
 
       <div className="grid gap-5 lg:grid-cols-[1.3fr_1fr]">
@@ -119,9 +121,15 @@ export default function EstudiDetall() {
             <p className="text-lg font-semibold text-ink">{formatPreu(estudi.preu)}</p>
             {estudi.preuRef && <p className="text-sm text-muted">Curs de referència: {estudi.preuRef}.</p>}
             {estudi.preuNota && <p className="mt-1 text-sm text-muted">{estudi.preuNota}</p>}
-            {estudi.tipus === 'grau' && estudi.raw.precio_fuente && (
-              <a href={estudi.raw.precio_fuente} target="_blank" rel="noreferrer" className="mt-1 inline-block text-sm text-primary underline">Veure font oficial</a>
-            )}
+            {estudi.tipus === 'grau' && estudi.raw.precio_fuente && (() => {
+              const font = separarFont(estudi.raw.precio_fuente)
+              return (
+                <div className="mt-1 space-y-0.5">
+                  {font.text && <p className="text-xs text-muted">Font: {font.text}.</p>}
+                  {font.url && <a href={font.url} target="_blank" rel="noreferrer" className="inline-block text-sm text-primary underline">Veure font oficial</a>}
+                </div>
+              )
+            })()}
           </Card>
 
           {estudi.tipus === 'grau' && (
@@ -160,8 +168,8 @@ export default function EstudiDetall() {
               </dl>
               <p className="mt-3 text-sm text-muted">L'accés no té nota de tall: s'hi accedeix amb l'ESO (grau mitjà) o amb el Batxillerat o un grau mitjà (grau superior); en cas de més demanda que places, s'ordena per barem acadèmic.</p>
               <div className="mt-2 flex flex-wrap gap-3 text-sm">
-                {estudi.raw.preinscripcion && <a href={estudi.raw.preinscripcion} target="_blank" rel="noreferrer" className="text-primary underline">Preinscripció</a>}
-                {estudi.raw.info && <a href={estudi.raw.info} target="_blank" rel="noreferrer" className="text-primary underline">Més informació</a>}
+                {urlExterna(estudi.raw.preinscripcion) && <a href={urlExterna(estudi.raw.preinscripcion)!} target="_blank" rel="noreferrer" className="text-primary underline">Preinscripció</a>}
+                {urlExterna(estudi.raw.info) && <a href={urlExterna(estudi.raw.info)!} target="_blank" rel="noreferrer" className="text-primary underline">Més informació</a>}
               </div>
             </Card>
           )}
@@ -228,7 +236,7 @@ export default function EstudiDetall() {
           <Card>
             <h2 className="mb-2 font-semibold text-ink">Contacte</h2>
             {estudi.tipus === 'grau' ? (
-              estudi.raw.url ? <a href={estudi.raw.url} target="_blank" rel="noreferrer" className="text-sm text-primary underline">Web del centre</a> : <p className="text-sm text-muted">Consulta-ho al centre.</p>
+              urlExterna(estudi.raw.url) ? <a href={urlExterna(estudi.raw.url)!} target="_blank" rel="noreferrer" className="text-sm text-primary underline">Web del centre</a> : <p className="text-sm text-muted">Consulta-ho al centre.</p>
             ) : (
               <ContacteCentre telefono={'telefono' in estudi.raw ? estudi.raw.telefono : null} email={'email' in estudi.raw ? estudi.raw.email : null} web={'web' in estudi.raw ? estudi.raw.web : null} />
             )}

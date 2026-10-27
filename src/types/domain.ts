@@ -25,6 +25,9 @@ export interface Perfil {
   esMenorDe14: boolean
   consentimentPares: boolean
   createdAt: string
+  /** Només per a tutors: false mentre un admin no aprova el compte (vegeu la migració
+   * 2026-10-27). Absent = aprovat (comptes antics i dades de demostració). */
+  tutorAprovat?: boolean
 }
 
 export interface Grup {

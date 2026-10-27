@@ -40,7 +40,7 @@ export default function Login() {
     <div className="fade-in mx-auto grid max-w-4xl gap-10 py-6 lg:grid-cols-2 lg:items-center">
       <div className="relative isolate hidden aspect-[3/4] overflow-hidden rounded-2xl bg-[#2a1a0e] lg:block">
         <div className="absolute inset-0 -z-20">
-          <Foto nom="login" prioritaria />
+          <Foto nom="login" prioritaria className="zoom-lent" />
         </div>
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#2a1a0e]/90 via-[#2a1a0e]/35 to-transparent" aria-hidden="true" />
         <div className="absolute inset-x-0 bottom-0 p-7">

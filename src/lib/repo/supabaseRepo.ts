@@ -255,6 +255,15 @@ export const supabaseRepo: Repositori = {
     return (data as FilaPerfil[]).map(perfilDesDeFila)
   },
 
+  async aprovarTutor(tutorId) {
+    const { data, error } = await db().from('profiles').update({ tutor_aprovat: true }).eq('id', tutorId).eq('role', 'tutor').select('id')
+    if (error) {
+      if (error.message?.includes('tutor_aprovat')) throw new Error("Cal executar la migració 2026-10-27 a Supabase abans d'aprovar tutors.")
+      throw error
+    }
+    if (!data?.length) throw new Error("No s'ha pogut aprovar (només un admin pot fer-ho).")
+  },
+
   async donarDeBaixaAlumne(alumneId) {
     const { error: errRpc } = await db().rpc('eliminar_usuari', { usuari: alumneId })
     if (!errRpc) return

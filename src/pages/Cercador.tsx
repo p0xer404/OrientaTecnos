@@ -290,7 +290,7 @@ export default function Cercador() {
       <div>
         <section className="relative isolate overflow-hidden rounded-2xl bg-[#2a1a0e]">
           <div key={tipusTab} className="fade-in absolute inset-0 -z-20">
-            <Foto nom={BANNER[tipusTab].imatge} prioritaria posicio={BANNER[tipusTab].posicio} />
+            <Foto nom={BANNER[tipusTab].imatge} prioritaria posicio={BANNER[tipusTab].posicio} className="zoom-lent" />
           </div>
           <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#2a1a0e]/90 via-[#2a1a0e]/65 to-[#2a1a0e]/25" aria-hidden="true" />
           <div className="px-6 pb-12 pt-8 sm:px-10 sm:pb-14 sm:pt-10">
@@ -342,7 +342,11 @@ export default function Cercador() {
         </div>
       )}
 
-      {missatge && <p role="status" className="fade-in rounded-lg bg-info-bg px-3 py-2 text-sm text-primary">{missatge}</p>}
+      {missatge && (
+        <p role="status" className="entra-dalt fixed left-1/2 top-20 z-50 w-max max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-lg border border-line border-l-4 border-l-success bg-surface px-4 py-2.5 text-sm font-medium text-ink shadow-xl">
+          {missatge}
+        </p>
+      )}
 
       <div className="grid gap-5 lg:grid-cols-[260px_1fr]">
         <Card as="aside" aria-label="Filtres" className="h-fit lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">

@@ -12,7 +12,7 @@ export function BarraComparador() {
   if (items.length === 0 || location.pathname === '/comparar') return null
 
   return (
-    <div className="fade-in fixed inset-x-0 bottom-4 z-30 flex justify-center px-4" role="status">
+    <div className="entra-baix fixed inset-x-0 bottom-4 z-30 flex justify-center px-4" role="status">
       <div className="flex items-center gap-3 rounded-md border border-line bg-surface px-4 py-2.5 shadow-lg">
         <span className="text-sm text-ink">
           <strong>{items.length}</strong> {items.length === 1 ? 'estudi' : 'estudis'} al comparador

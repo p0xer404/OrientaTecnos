@@ -13,8 +13,12 @@ interface Props {
   onAfegit?: () => void
 }
 
-export function SelectorLlistaModal({ estudi, onTancar, onAfegit }: Props) {
+export function SelectorLlistaModal({ estudi: estudiObert, onTancar, onAfegit }: Props) {
   const { perfil } = useAuth()
+  // Es conserva el darrer estudi perquè el modal pugui fer l'animació de sortida amb el contingut.
+  const [estudi, setEstudi] = useState(estudiObert)
+  if (estudiObert && estudiObert !== estudi) setEstudi(estudiObert)
+  const [carregantLlistes, setCarregantLlistes] = useState(false)
   const [llistes, setLlistes] = useState<Llista[]>([])
   const [llistesAmbEstudi, setLlistesAmbEstudi] = useState<Set<string>>(new Set())
   const [nomNova, setNomNova] = useState('')
@@ -24,11 +28,15 @@ export function SelectorLlistaModal({ estudi, onTancar, onAfegit }: Props) {
   const temporitzador = useRef<number | undefined>(undefined)
 
   useEffect(() => {
-    if (!perfil || !estudi) return
+    if (!perfil || !estudiObert) return
+    const estudi = estudiObert
     let actiu = true
     window.clearTimeout(temporitzador.current)
     setConfirmacio(null)
     setError(null)
+    // Sense això, en obrir-lo per a un altre estudi es veien uns instants els "Ja hi és" de l'anterior.
+    setLlistesAmbEstudi(new Set())
+    setCarregantLlistes(true)
     repo
       .llistesDeLAlumne(perfil.id)
       .then(async (ls) => {
@@ -46,10 +54,13 @@ export function SelectorLlistaModal({ estudi, onTancar, onAfegit }: Props) {
       .catch(() => {
         if (actiu) setError("No s'han pogut carregar les teves llistes.")
       })
+      .finally(() => {
+        if (actiu) setCarregantLlistes(false)
+      })
     return () => {
       actiu = false
     }
-  }, [perfil, estudi])
+  }, [perfil, estudiObert])
 
   useEffect(() => () => window.clearTimeout(temporitzador.current), [])
 
@@ -101,18 +112,18 @@ export function SelectorLlistaModal({ estudi, onTancar, onAfegit }: Props) {
   }
 
   return (
-    <Modal obert={Boolean(estudi)} onTancar={tancar} titol={`Afegeix "${estudi.nom}" a una llista`}>
+    <Modal obert={Boolean(estudiObert)} onTancar={tancar} titol={`Afegeix "${estudi.nom}" a una llista`}>
       {confirmacio ? (
         <p role="status" className="fade-in rounded-md bg-success-bg px-3 py-3 text-center text-sm font-medium text-success">✓ {confirmacio}</p>
       ) : (
         <div className="space-y-3">
-          {llistes.length === 0 && <p className="text-sm text-muted">Encara no tens cap llista. Crea'n una a sota.</p>}
+          {!carregantLlistes && llistes.length === 0 && <p className="text-sm text-muted">Encara no tens cap llista. Crea'n una a sota.</p>}
           <ul className="space-y-2">
             {llistes.map((l) => {
               const jaHiEs = llistesAmbEstudi.has(l.id)
               return (
                 <li key={l.id}>
-                  <Button variant="secondary" className="w-full justify-between" disabled={carregant || jaHiEs} onClick={() => afegir(l)}>
+                  <Button variant="secondary" className="w-full justify-between" disabled={carregant || carregantLlistes || jaHiEs} onClick={() => afegir(l)}>
                     <span>
                       {l.nom} {l.esPreinscripcio && '· Preinscripció'}
                     </span>

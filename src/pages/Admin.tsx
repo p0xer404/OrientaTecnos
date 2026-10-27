@@ -30,8 +30,8 @@ export default function Admin() {
     try {
       await accio()
       await carregar()
-    } catch {
-      setError("No s'ha pogut completar l'acció. Torna-ho a provar.")
+    } catch (err) {
+      setError(err instanceof Error && err.message ? err.message : "No s'ha pogut completar l'acció. Torna-ho a provar.")
     }
   }
 
@@ -51,6 +51,11 @@ export default function Admin() {
   async function eliminarGrup(grupId: string) {
     if (!confirm('Vols eliminar aquest grup? Els alumnes deixaran de tenir-hi assignació.')) return
     await ambErrors(() => repo.eliminarGrup(grupId))
+  }
+
+  async function aprovarTutor(tutor: Perfil) {
+    if (!confirm(`Aprovar ${tutor.nom} (${tutor.email}) com a tutor/a? Podrà crear grups i veure les dades dels alumnes que s'hi apuntin.`)) return
+    await ambErrors(() => repo.aprovarTutor(tutor.id))
   }
 
   async function donarBaixa(alumneId: string, nom: string) {
@@ -87,8 +92,22 @@ export default function Admin() {
         {tutors.length === 0 ? (
           <p className="text-sm text-muted">Encara no s'ha registrat cap tutor/a.</p>
         ) : (
-          <ul className="space-y-1 text-sm">
-            {tutors.map((t) => <li key={t.id} className="text-ink">{t.nom} <span className="text-muted">· {t.email}</span></li>)}
+          <ul className="divide-y divide-line text-sm">
+            {[...tutors].sort((a, b) => Number(a.tutorAprovat !== false) - Number(b.tutorAprovat !== false)).map((t) => (
+              <li key={t.id} className="flex flex-wrap items-center justify-between gap-2 py-2">
+                <span className="text-ink">
+                  {t.nom} <span className="text-muted">· {t.email}</span>
+                </span>
+                {t.tutorAprovat === false ? (
+                  <span className="flex items-center gap-2">
+                    <Badge tipus="accent">Pendent d'aprovació</Badge>
+                    <Button mida="sm" onClick={() => aprovarTutor(t)}>Aprova</Button>
+                  </span>
+                ) : (
+                  <Badge tipus="success">Aprovat</Badge>
+                )}
+              </li>
+            ))}
           </ul>
         )}
       </Card>

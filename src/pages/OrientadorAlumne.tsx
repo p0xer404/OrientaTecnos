@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { repo } from '../lib/repo'
 import { useAuth } from '../context/useAuth'
 import { ESTUDIS_BUIT, useTotsEstudis } from '../data/useTotsEstudis'
-import { calcularMatch, desduplicarPerNom } from '../lib/match'
+import { recomanar } from '../lib/match'
 import { NOM_PERFIL } from '../lib/riasec/mapping'
 import { Card } from '../components/ui/Card'
 import { Badge } from '../components/ui/Badge'
@@ -94,10 +94,8 @@ export default function OrientadorAlumne() {
 
   const recomanacions = useMemo(() => {
     if (!alumne || estudis.length === 0) return []
-    const calculats = estudis
-      .map((e) => ({ estudi: e, match: calcularMatch(e, { notaMitjana: alumne.notaMitjana, dominants: resultatRiasec?.dominants ?? [], preferencies: resultatPreferencies ?? null, interessos: alumne.interessos }) }))
-      .sort((a, b) => b.match.puntuacio - a.match.puntuacio)
-    return desduplicarPerNom(calculats).slice(0, 5)
+    const entrada = { notaMitjana: alumne.notaMitjana, dominants: resultatRiasec?.dominants ?? [], preferencies: resultatPreferencies ?? null, interessos: alumne.interessos }
+    return recomanar(estudis, entrada, 5, 0)
   }, [alumne, estudis, resultatRiasec, resultatPreferencies])
 
   if (alumne === undefined) return <div className="fade-in"><SkeletonFitxa /></div>

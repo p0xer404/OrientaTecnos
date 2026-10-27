@@ -11,7 +11,7 @@ export default function Guia() {
     <div className="fade-in space-y-5">
       <div className="relative isolate overflow-hidden rounded-2xl bg-[#2a1a0e]">
         <div className="absolute inset-0 -z-20">
-          <Foto nom="guia" prioritaria posicio="50% 60%" />
+          <Foto nom="guia" prioritaria posicio="50% 60%" className="zoom-lent" />
         </div>
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#2a1a0e]/90 via-[#2a1a0e]/70 to-[#2a1a0e]/30" aria-hidden="true" />
         <div className="px-6 py-10 sm:px-10 sm:py-14">
