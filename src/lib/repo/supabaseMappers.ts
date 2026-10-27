@@ -18,8 +18,6 @@ export interface FilaPerfil {
   es_menor_14: boolean
   consentiment_pares: boolean
   created_at: string
-  /** Absent si encara no s'ha executat la migració 2026-10-27. */
-  tutor_aprovat?: boolean
 }
 
 export function perfilDesDeFila(f: FilaPerfil): Perfil {
@@ -38,7 +36,6 @@ export function perfilDesDeFila(f: FilaPerfil): Perfil {
     esMenorDe14: f.es_menor_14,
     consentimentPares: f.consentiment_pares,
     createdAt: f.created_at,
-    tutorAprovat: f.tutor_aprovat ?? true,
   }
 }
 

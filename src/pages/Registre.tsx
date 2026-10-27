@@ -117,7 +117,7 @@ export default function Registre() {
 
           {tipus === 'tutor' && (
             <p className="fade-in rounded-md bg-info-bg p-3 text-sm text-primary">
-              L'administració de l'escola haurà d'aprovar el teu compte de docent. Després podràs crear els teus grups i codis de classe des de «El meu grup».
+              Un cop creat el compte, podràs crear els teus propis grups i codis de classe des de «El meu grup».
             </p>
           )}
 

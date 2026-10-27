@@ -133,7 +133,6 @@ export const demoRepo: Repositori = {
       esMenorDe14: false,
       consentimentPares: false,
       createdAt: new Date().toISOString(),
-      tutorAprovat: false,
     }
     data.perfils.push(nou)
     data.credencials[email] = dades.password
@@ -193,7 +192,6 @@ export const demoRepo: Repositori = {
   async crearGrup(nom, curs, tutorId) {
     const data = db()
     const tutor = requerir(data.perfils.find((p) => p.id === tutorId), 'Tutor/a no trobat.')
-    if (tutor.tutorAprovat === false) throw new Error('El teu compte de tutor/a encara no està aprovat.')
     const codisExistents = new Set(data.grups.map((g) => g.codiInvitacio))
     let codi = generarCodiInvitacio()
     while (codisExistents.has(codi)) codi = generarCodiInvitacio()
@@ -247,14 +245,6 @@ export const demoRepo: Repositori = {
 
   async totsElsTutors() {
     return copia(db().perfils.filter((p) => p.rol === 'tutor'))
-  },
-
-  async aprovarTutor(tutorId) {
-    const data = db()
-    const tutor = data.perfils.find((p) => p.id === tutorId && p.rol === 'tutor')
-    if (!tutor) throw new Error('Tutor/a no trobat.')
-    tutor.tutorAprovat = true
-    desar()
   },
 
   async donarDeBaixaAlumne(alumneId) {

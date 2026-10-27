@@ -63,7 +63,6 @@ export interface Repositori {
   totsElsAlumnes(): Promise<Perfil[]>
   totsElsTutors(): Promise<Perfil[]>
   donarDeBaixaAlumne(alumneId: string): Promise<void>
-  aprovarTutor(tutorId: string): Promise<void>
 
   // Llistes
   llistesDeLAlumne(studentId: string): Promise<Llista[]>

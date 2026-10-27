@@ -163,23 +163,6 @@ export default function OrientadorDashboard() {
     return <div className="fade-in"><SkeletonOrientadorDashboard /></div>
   }
 
-  // Un compte de tutor/a nou no pot crear grups ni veure alumnes fins que un admin l'aprova.
-  if (perfil?.tutorAprovat === false) {
-    return (
-      <div className="fade-in space-y-4">
-        <p className="eyebrow">El teu grup</p>
-        <h1 className="mt-1 text-2xl font-semibold text-ink">El meu grup</h1>
-        <Card className="border-t-4 border-t-accent">
-          <h2 className="font-semibold text-ink">Compte pendent d'aprovació</h2>
-          <p className="mt-1 text-sm text-muted">
-            Per protegir les dades de l'alumnat, l'administració de l'escola ha de confirmar que ets docent abans que puguis crear
-            grups. Quan t'hagin aprovat, torna a entrar i ja podràs crear el teu grup i obtenir el codi de classe.
-          </p>
-        </Card>
-      </div>
-    )
-  }
-
   const formulariGrupNou = (
     <div className="flex flex-wrap items-end gap-2">
       <div>
