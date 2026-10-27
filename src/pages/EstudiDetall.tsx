@@ -14,6 +14,9 @@ import { GraficNota } from '../components/fitxa/GraficNota'
 import { MapaCentre } from '../components/fitxa/MapaCentre'
 import { TargetaEstudi } from '../components/cercador/TargetaEstudi'
 import { SelectorLlistaModal } from '../components/llistes/SelectorLlistaModal'
+import { Foto } from '../components/ui/Foto'
+import { imatgePerEstudi } from '../lib/imatges'
+import { imatgeDelCentre, useImatgesCentres } from '../lib/imatgesCentres'
 import { IconGlobe, IconMail, IconPhone } from '../components/ui/Icons'
 import type { EstudiQualsevol } from '../types/estudi'
 import { separarFont, textWeb, urlExterna } from '../lib/url'
@@ -29,6 +32,13 @@ function ContacteCentre({ telefono, email, web: webOriginal }: { telefono?: stri
       {web && <li className="flex items-center gap-2"><IconGlobe className="shrink-0 text-muted" /><a className="text-primary underline" href={web} target="_blank" rel="noreferrer">{textWeb(web)}</a></li>}
     </ul>
   )
+}
+
+const ETIQUETA_TIPUS: Record<EstudiQualsevol['tipus'], string> = {
+  grau: 'Grau universitari',
+  fp: 'Formació Professional',
+  batxillerat: 'Batxillerat',
+  artistic: 'Ensenyament artístic',
 }
 
 function explicacioAdmissio(admissio: string): string {
@@ -72,6 +82,12 @@ export default function EstudiDetall() {
   }, [estudis, estudi])
 
   const comparadorActual = useComparador()
+  const imatgesCentres = useImatgesCentres()
+  // Mateixa foto que a la targeta del cercador quan és la del centre; si no, una d'estoc del tipus.
+  const foto = useMemo(
+    () => (estudi ? imatgeDelCentre(estudi, imatgesCentres) ?? imatgePerEstudi(estudi.tipus, estudi.id) : null),
+    [estudi, imatgesCentres],
+  )
 
   if (error) return <div className="fade-in"><EstatError missatge={error} onReintentar={retry} /></div>
   if (!estudis) return <div className="fade-in"><SkeletonFitxa /></div>
@@ -94,10 +110,26 @@ export default function EstudiDetall() {
   return (
     <div className="fade-in space-y-5">
       <div>
-        {estudi.destacat && <Badge tipus="accent">Destacat</Badge>}
-        <h1 className="mt-1 text-2xl font-semibold text-ink">{estudi.nom}</h1>
-        <p className="text-muted">{estudi.subtitol}</p>
-        <div className="mt-2 flex flex-wrap gap-2">
+        <section className="relative isolate overflow-hidden rounded-2xl bg-[#2a1a0e]">
+          {foto && (
+            <div key={foto.fitxer} className="absolute inset-0 -z-20">
+              <Foto imatge={foto} prioritaria posicio="50% 35%" className="zoom-lent" />
+            </div>
+          )}
+          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#2a1a0e]/95 via-[#2a1a0e]/60 to-[#2a1a0e]/20" aria-hidden="true" />
+          {foto?.delCentre && (
+            <p className="absolute right-3 top-3 rounded bg-[#2a1a0e]/60 px-1.5 py-0.5 text-[10px] text-[#faf5ea]">Foto: web del centre</p>
+          )}
+          <div className="stagger flex min-h-48 flex-col justify-end px-5 pb-6 pt-16 sm:min-h-56 sm:px-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#f0c9a8]">
+              {ETIQUETA_TIPUS[estudi.tipus]}
+              {estudi.destacat && ' · Destacat'}
+            </p>
+            <h1 className="mt-1 text-2xl font-semibold text-[#faf5ea] sm:text-3xl">{estudi.nom}</h1>
+            {estudi.subtitol && <p className="mt-1 text-[#efe6d6]">{estudi.subtitol}</p>}
+          </div>
+        </section>
+        <div className="mt-4 flex flex-wrap gap-2">
           <Badge>{estudi.municipi}</Badge>
           <Badge>{estudi.titularitat}</Badge>
           {estudi.notaTall2026 != null && <Badge tipus="info">Nota de tall {formatNota(estudi.notaTall2026)}</Badge>}
@@ -120,7 +152,7 @@ export default function EstudiDetall() {
             <h2 className="mb-2 font-semibold text-ink">Preu</h2>
             <p className="text-lg font-semibold text-ink">{formatPreu(estudi.preu)}</p>
             {estudi.preuRef && <p className="text-sm text-muted">Curs de referència: {estudi.preuRef}.</p>}
-            {estudi.preuNota && <p className="mt-1 text-sm text-muted">{estudi.preuNota}</p>}
+            {estudi.preuNota && estudi.preuNota !== formatPreu(estudi.preu) && <p className="mt-1 text-sm text-muted">{estudi.preuNota}</p>}
             {estudi.tipus === 'grau' && estudi.raw.precio_fuente && (() => {
               const font = separarFont(estudi.raw.precio_fuente)
               return (

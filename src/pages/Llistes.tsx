@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type DragEvent, type FormEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type DragEvent, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { repo } from '../lib/repo'
 import { useAuth } from '../context/useAuth'
@@ -11,6 +11,7 @@ import { Badge } from '../components/ui/Badge'
 import { EstatBuit } from '../components/ui/Misc'
 import { SkeletonLlistes } from '../components/ui/Skeleton'
 import { formatPreu } from '../lib/format'
+import { useFlip } from '../lib/useFlip'
 import type { ElementLlista, Llista } from '../types/domain'
 import type { EstudiQualsevol } from '../types/estudi'
 
@@ -30,6 +31,9 @@ export default function Llistes() {
 
   const cercador = useMemo(() => (totsEstudis.length ? crearCercador(totsEstudis) : null), [totsEstudis])
   const idsALaLlista = useMemo(() => new Set(elements.map((e) => e.estudiId)), [elements])
+  // Els estudis llisquen fins a la nova posició en reordenar (botons ↑/↓ o arrossegant).
+  const llistaRef = useRef<HTMLOListElement>(null)
+  useFlip(llistaRef, elements.map((e) => e.id).join('|'))
   const resultatsCerca = useMemo(() => {
     if (!cercador || !cercaText.trim()) return []
     return cercador
@@ -229,17 +233,19 @@ export default function Llistes() {
             {elements.length === 0 ? (
               <p className="text-sm text-muted">Aquesta llista encara no té cap estudi. Cerca'l a sobre o afegeix-ne des del <Link to="/cercador" className="text-primary underline">cercador</Link>.</p>
             ) : (
-              <ol className="space-y-2">
+              <ol ref={llistaRef} className="space-y-2">
                 {elements.map((el, i) => {
                   const estudi = estudis[el.estudiId]
                   return (
                     <li
                       key={el.id}
+                      data-flip={el.id}
                       draggable
                       onDragStart={() => setArrossegat(el.id)}
                       onDragOver={(e) => e.preventDefault()}
                       onDrop={(e) => onDrop(e, el.id)}
-                      className="flex cursor-grab items-center gap-3 rounded-md border border-line bg-canvas px-3 py-2 transition-colors"
+                      onDragEnd={() => setArrossegat(null)}
+                      className={`flex cursor-grab items-center gap-3 rounded-md border bg-canvas px-3 py-2 transition-[border-color,opacity,box-shadow] duration-150 active:cursor-grabbing ${arrossegat === el.id ? 'border-primary opacity-50 shadow-md' : 'border-line'}`}
                     >
                       <span className="hidden text-sm font-semibold text-muted sm:inline" aria-hidden="true">⠿</span>
                       {llistaActiva.esPreinscripcio && <span className="text-sm font-semibold text-muted">{i + 1}a</span>}

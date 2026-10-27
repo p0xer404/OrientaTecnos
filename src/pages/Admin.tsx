@@ -36,7 +36,22 @@ export default function Admin() {
   }
 
   useEffect(() => {
-    carregar()
+    let viu = true
+    Promise.all([repo.totsElsTutors(), repo.totsElsGrups(), repo.totsElsAlumnes()])
+      .then(([t, g, a]) => {
+        if (!viu) return
+        setGrups(g)
+        setAlumnes(a)
+        setTutors(t)
+      })
+      .catch(() => {
+        if (!viu) return
+        setError("No s'han pogut carregar les dades. Recarrega la pàgina.")
+        setTutors((actual) => actual ?? [])
+      })
+    return () => {
+      viu = false
+    }
   }, [])
 
   if (!tutors) {

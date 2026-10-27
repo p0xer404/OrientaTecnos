@@ -27,16 +27,24 @@ export function SelectorLlistaModal({ estudi: estudiObert, onTancar, onAfegit }:
   const [error, setError] = useState<string | null>(null)
   const temporitzador = useRef<number | undefined>(undefined)
 
+  // Cada cop que s'obre (també per al mateix estudi) es parteix d'un estat net. Sense això es
+  // veien uns instants els "Ja hi és" o la confirmació de l'obertura anterior.
+  const [obertPer, setObertPer] = useState(estudiObert)
+  if (estudiObert !== obertPer) {
+    setObertPer(estudiObert)
+    if (estudiObert) {
+      setConfirmacio(null)
+      setError(null)
+      setLlistesAmbEstudi(new Set())
+      setCarregantLlistes(true)
+    }
+  }
+
   useEffect(() => {
     if (!perfil || !estudiObert) return
     const estudi = estudiObert
     let actiu = true
     window.clearTimeout(temporitzador.current)
-    setConfirmacio(null)
-    setError(null)
-    // Sense això, en obrir-lo per a un altre estudi es veien uns instants els "Ja hi és" de l'anterior.
-    setLlistesAmbEstudi(new Set())
-    setCarregantLlistes(true)
     repo
       .llistesDeLAlumne(perfil.id)
       .then(async (ls) => {

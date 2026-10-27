@@ -23,39 +23,55 @@ const SECCIONS: { tipus: EstudiTipus; titol: string }[] = [
   { tipus: 'batxillerat', titol: 'Batxillerat' },
 ]
 
+/** Referència estable perquè el useMemo de les recomanacions no es recalculi sense motiu. */
+const SENSE_DOMINANTS: PerfilRiasec[] = []
+
 export default function Recomanacions() {
   const { perfil } = useAuth()
   const { estudis, error, retry } = useTotsEstudis()
-  const [dominants, setDominants] = useState<PerfilRiasec[]>([])
-  const [preferencies, setPreferencies] = useState<ResultatPreferencies | null>(null)
-  const [feTestRiasec, setFeTestRiasec] = useState(true)
   const [estudiPerAfegir, setEstudiPerAfegir] = useState<EstudiQualsevol | null>(null)
   const comparadorActual = useComparador()
   const idsComparador = useMemo(() => new Set(comparadorActual.map((i) => i.id)), [comparadorActual])
 
   // Fins que no arriben els resultats dels tests no es calcula res: si no, primer es mostraven
   // recomanacions sense perfil RIASEC i, un instant després, unes altres de diferents.
-  const [carregantTests, setCarregantTests] = useState(true)
-  const [errorTests, setErrorTests] = useState(false)
+  const [tests, setTests] = useState<{
+    perfilId: string
+    dominants: PerfilRiasec[]
+    preferencies: ResultatPreferencies | null
+    feTestRiasec: boolean
+    error: boolean
+  } | null>(null)
+  const idPerfil = perfil?.id
 
   useEffect(() => {
-    if (!perfil) return
+    if (!idPerfil) return
     let viu = true
-    setCarregantTests(true)
-    setErrorTests(false)
-    Promise.all([repo.ultimResultat(perfil.id, 'riasec'), repo.ultimResultat(perfil.id, 'preferencies')])
+    Promise.all([repo.ultimResultat(idPerfil, 'riasec'), repo.ultimResultat(idPerfil, 'preferencies')])
       .then(([riasec, prefs]) => {
         if (!viu) return
-        setDominants(riasec ? (riasec.resultat as ResultatRiasec).dominants : [])
-        setFeTestRiasec(Boolean(riasec))
-        setPreferencies(prefs ? (prefs.resultat as ResultatPreferencies) : null)
+        setTests({
+          perfilId: idPerfil,
+          dominants: riasec ? (riasec.resultat as ResultatRiasec).dominants : [],
+          preferencies: prefs ? (prefs.resultat as ResultatPreferencies) : null,
+          feTestRiasec: Boolean(riasec),
+          error: false,
+        })
       })
-      .catch(() => viu && setErrorTests(true))
-      .finally(() => viu && setCarregantTests(false))
+      .catch(() => {
+        if (viu) setTests({ perfilId: idPerfil, dominants: [], preferencies: null, feTestRiasec: true, error: true })
+      })
     return () => {
       viu = false
     }
-  }, [perfil])
+  }, [idPerfil])
+
+  const testsActuals = tests && tests.perfilId === idPerfil ? tests : null
+  const carregantTests = !testsActuals
+  const dominants = testsActuals?.dominants ?? SENSE_DOMINANTS
+  const preferencies = testsActuals?.preferencies ?? null
+  const feTestRiasec = testsActuals?.feTestRiasec ?? true
+  const errorTests = testsActuals?.error ?? false
 
   const resultats = useMemo(() => {
     if (!estudis || !perfil || carregantTests) return null

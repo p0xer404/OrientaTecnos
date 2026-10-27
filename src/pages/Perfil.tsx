@@ -27,12 +27,23 @@ export default function Perfil() {
   const [desat, setDesat] = useState(false)
   const [confirmarEsborrat, setConfirmarEsborrat] = useState(false)
 
-  useEffect(() => {
-    if (!perfil) return
+  // El formulari es torna a omplir quan arriba (o es desa) el perfil.
+  const [perfilDelFormulari, setPerfilDelFormulari] = useState<typeof perfil>(null)
+  if (perfil && perfil !== perfilDelFormulari) {
+    setPerfilDelFormulari(perfil)
     setNotaMitjana(perfil.notaMitjana?.toString() ?? '')
     setInteressos(perfil.interessos.filter((i) => (AREES_INTERES as readonly string[]).includes(i)))
-    repo.resultatsDeLAlumne(perfil.id).then(setResultats)
-  }, [perfil])
+  }
+
+  const idPerfil = perfil?.id
+  useEffect(() => {
+    if (!idPerfil) return
+    let viu = true
+    repo.resultatsDeLAlumne(idPerfil).then((r) => viu && setResultats(r)).catch(() => {})
+    return () => {
+      viu = false
+    }
+  }, [idPerfil])
 
   if (!perfil) return null
 

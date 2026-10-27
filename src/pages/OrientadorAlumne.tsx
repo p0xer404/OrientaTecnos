@@ -47,10 +47,16 @@ export default function OrientadorAlumne() {
   const [desant, setDesant] = useState(false)
   const [estatNota, setEstatNota] = useState<'desat' | 'error' | null>(null)
 
+  // En canviar d'alumne es torna a mostrar l'esquelet mentre carrega el nou.
+  const [alumneDe, setAlumneDe] = useState(id)
+  if (id !== alumneDe) {
+    setAlumneDe(id)
+    setAlumne(undefined)
+  }
+
   useEffect(() => {
     if (!id || !tutor) return
     let actiu = true
-    setAlumne(undefined)
     ;(async () => {
       try {
         const [perfilAlumne, grupsTutor] = await Promise.all([

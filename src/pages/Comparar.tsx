@@ -111,7 +111,7 @@ export default function Comparar() {
             <tr className="border-b border-line">
               <th className="py-2 pr-4 text-left text-sm text-muted"> </th>
               {estudis.map((e) => (
-                <th key={e.id} className="px-3 py-2 text-left align-top">
+                <th key={e.id} className="entra-dalt px-3 py-2 text-left align-top">
                   <Link to={`/estudi/${e.id}`} className="text-sm font-semibold text-ink hover:text-primary">{e.nom}</Link>
                   <p className="text-xs text-muted">{e.centre}</p>
                   <button className="mt-1 text-xs text-warning underline" onClick={() => treureDelComparador(e.id)}>Treure</button>

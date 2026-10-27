@@ -489,7 +489,7 @@ export default function Cercador() {
             <EstatBuit titol="No s'ha trobat cap estudi amb aquests filtres" descripcio="Prova a eixamplar els filtres o a canviar la cerca." />
           ) : (
             <>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div key={tipusTab} className="stagger grid gap-4 sm:grid-cols-2">
                 {resultats.slice(0, visibles).map((e) => (
                   <TargetaEstudi
                     key={e.id}

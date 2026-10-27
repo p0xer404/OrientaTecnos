@@ -78,10 +78,8 @@ export function SkeletonFitxa() {
   return (
     <div className="space-y-5">
       <div>
-        <Skeleton className="mb-2 h-3 w-24" />
-        <Skeleton className="h-7 w-2/3" />
-        <Skeleton className="mt-2 h-4 w-1/3" />
-        <div className="mt-3 flex gap-2">
+        <Skeleton className="h-48 w-full !rounded-2xl sm:h-56" />
+        <div className="mt-4 flex gap-2">
           <Skeleton className="h-5 w-20" />
           <Skeleton className="h-5 w-24" />
         </div>

@@ -12,7 +12,6 @@ export function useTotsEstudis(): { estudis: EstudiQualsevol[] | null; error: st
 
   useEffect(() => {
     let actiu = true
-    setError(null)
     getTotsEstudis()
       .then((tots) => {
         if (actiu) setEstudis(tots)
@@ -25,7 +24,10 @@ export function useTotsEstudis(): { estudis: EstudiQualsevol[] | null; error: st
     }
   }, [intent])
 
-  const retry = useCallback(() => setIntent((i) => i + 1), [])
+  const retry = useCallback(() => {
+    setError(null)
+    setIntent((i) => i + 1)
+  }, [])
 
   return { estudis, error, retry }
 }
