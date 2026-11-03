@@ -15,6 +15,7 @@ const files = [
   'artisticos_superiores.json',
   'universidades.json',
   'meta.json',
+  'ponderaciones.json',
 ]
 
 mkdirSync(dest, { recursive: true })

@@ -76,3 +76,17 @@ Los centros privados sin concierto no publican oferta: sus campos de plazas son 
 | precio_credito, precio_1r_curso, precio_fuente, precio_nota | Títulos superiores públicos: 21,73 €/crédito (Educació), ESMUC 25,04 €, Institut del Teatre 32,18 €; privados: null |
 | precio_ciclos | 360 €/curso en ciclos públicos |
 | contacto | direccion, cp, municipio, comarca, telefono, email, web, lat, lon, km_desde_terrassa |
+
+## ponderaciones.json
+
+Ponderacions oficials de les matèries de la fase específica (PAU) per a la nota d'admissió de cada grau (font: universitats.gencat.cat). Generat per `scripts/update_ponderaciones.py`, separat de `update_data.py` perquè parseja un PDF de 24 pàgines amb capçaleres de columna en vertical.
+
+| Campo | Descripción |
+|---|---|
+| generado, fuente, curso | Data de generació, URL del PDF oficial i curs al qual correspon |
+| materias | Llista de totes les matèries que apareixen a la taula (noms tal com surten al PDF oficial) |
+| por_grado | `{ id del grau (com a grados.json) : { ponderaciones, confianza } }` |
+| por_grado[id].ponderaciones | `{ nom de la matèria: 0.2 \| 0.1 }` — només les matèries que ponderen per a aquest grau; qualsevol altra no compta per a la nota d'admissió |
+| por_grado[id].confianza | `"exacta"` (nom idèntic al de la taula oficial) o `"aproximada"` (aparellat retirant parèntesis merament decoratius, com el campus; mai per similitud estadística) |
+
+No tots els graus de preinscripció hi surten: alguns graus nous o amb una redacció del nom molt diferent a la del PDF oficial no s'han pogut aparellar amb seguretat i no tenen entrada a `por_grado` (la web ha de mostrar llavors un enllaç a la font oficial, no inventar-se la ponderació). Els graus d'admissió pròpia (privades) tampoc hi surten: no tenen taula de ponderacions PAU.

@@ -140,3 +140,21 @@ export interface MetaRaw {
   fuentes: Record<string, string>
   centros_sin_precio: string[]
 }
+
+/** Ponderacions de les matèries de la fase específica (PAU) per a un grau concret:
+ * `ponderaciones` és `{ nom de la matèria: 0.2 | 0.1 }` (només les matèries que ponderen
+ * per aquest grau; la resta no compten per a la nota d'admissió). `confianza` és
+ * `'aproximada'` quan l'aparellament amb la taula oficial s'ha fet retirant parèntesis
+ * merament decoratius del nom (campus, modalitat...); mai una estimació estadística. */
+export interface PonderacionGrauRaw {
+  ponderaciones: Record<string, number>
+  confianza: 'exacta' | 'aproximada'
+}
+
+export interface PonderacionsRaw {
+  generado: string
+  fuente: string
+  curso: string
+  materias: string[]
+  por_grado: Record<string, PonderacionGrauRaw>
+}

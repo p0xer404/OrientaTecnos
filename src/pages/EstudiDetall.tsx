@@ -11,6 +11,7 @@ import { Button } from '../components/ui/Button'
 import { EstatError } from '../components/ui/Misc'
 import { SkeletonFitxa } from '../components/ui/Skeleton'
 import { GraficNota } from '../components/fitxa/GraficNota'
+import { CalculadoraAdmissio } from '../components/fitxa/CalculadoraAdmissio'
 import { MapaCentre } from '../components/fitxa/MapaCentre'
 import { TargetaEstudi } from '../components/cercador/TargetaEstudi'
 import { SelectorLlistaModal } from '../components/llistes/SelectorLlistaModal'
@@ -186,6 +187,16 @@ export default function EstudiDetall() {
               {estudi.id === 'pre-5067' && (
                 <Link to="/estudi/art-escac" className="mt-2 inline-block text-sm text-primary underline">Veure la fitxa completa de l'ESCAC →</Link>
               )}
+            </Card>
+          )}
+
+          {estudi.tipus === 'grau' && estudi.raw.admision.startsWith('Preinscripci') && (
+            <Card>
+              <h2 className="mb-1 font-semibold text-ink">Calculadora de nota d'admissió</h2>
+              <p className="mb-3 text-sm text-muted">
+                Calcula la teva nota d'admissió a aquest grau segons com ponderin les matèries que et presentis a la fase específica.
+              </p>
+              <CalculadoraAdmissio grauId={estudi.id} notaTall={estudi.raw.nota_corte_2026} />
             </Card>
           )}
 

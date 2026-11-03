@@ -31,6 +31,7 @@ Idioma de la interfaz: **español** (los nombres de grados vienen en catalán de
 - Gráfico de evolución de la nota de corte 2023 → 2026 (si hay datos).
 - Precio: mostrar `precio_1r_curso`, `precio_credito`, `precio_curso_ref` y si incluye tasas. Si `nota` tiene texto, mostrarlo como aviso. Enlace a `precio_fuente` ("Ver fuente oficial").
 - Si `admision` es propia (privadas), explicar que no hay nota de corte y que hay proceso de admisión propio.
+- Calculadora de nota de admisión (si `admision` es preinscripción): a partir de la nota media de Bachillerato, la nota de la fase general y hasta 3 materias de la fase específica, calcula la nota de admisión a *ese* grado según cómo ponderen sus materias (`data/ponderaciones.json`) y la compara con su nota de corte. Si el grado no tiene ponderaciones emparejadas en los datos, mostrar enlace a la fuente oficial en vez de inventar la ponderación.
 - Botón "Añadir a mi lista" y "Comparar".
 
 ### 3. Comparador (`/comparar`)
@@ -91,6 +92,7 @@ Lee `docs/ESQUEMA_DATOS.md` para el detalle de cada campo. Resumen:
 | `bachilleratos.json` | 473 centros con Bachillerato del área metropolitana (Terrassa primero), con plazas, demanda, titularidad, contacto y coordenadas. |
 | `artisticos_superiores.json` | 62 centros de enseñanzas artísticas superiores y ciclos superiores artísticos de Cataluña + ESCAC destacada. |
 | `universidades.json` | Siglas, nombre, tipo y nº de grados. |
+| `ponderaciones.json` | Ponderaciones oficiales (0,2 / 0,1) de las materias de la fase específica de la PAU por grado, para la calculadora de nota de admisión. No cubre todos los grados (ver `docs/ESQUEMA_DATOS.md`). |
 | `meta.json` | Fecha de generación, fuentes y centros sin precio localizado. |
 | `*.csv` | Lo mismo en CSV. |
 | `precios_manual.json`, `privadas_manual.json` | Entradas manuales que usa el script. No los cargues en la web. |
@@ -105,10 +107,11 @@ Reglas importantes al mostrar datos:
 ## Actualizar los datos
 
 ```bash
-python scripts/update_data.py      # descarga datos frescos de la Generalitat y regenera data/
-python scripts/build_excel.py      # regenera el Excel
+python scripts/update_data.py            # descarga datos frescos de la Generalitat y regenera data/
+python scripts/update_ponderaciones.py   # descarga la taula de ponderacions PAU y regenera data/ponderaciones.json (requiere scripts/requirements.txt)
+python scripts/build_excel.py            # regenera el Excel
 ```
-Las notas de corte salen cada julio; los precios de privadas hay que revisarlos a mano en `data/privadas_manual.json` y `data/precios_manual.json` (cada entrada tiene su URL de fuente).
+Las notas de corte salen cada julio; los precios de privadas hay que revisarlos a mano en `data/privadas_manual.json` y `data/precios_manual.json` (cada entrada tiene su URL de fuente). La tabla de ponderaciones también se publica cada curso (`universitats.gencat.cat`): ejecutar `update_ponderaciones.py` *después* de `update_data.py` (necesita `data/grados.json` ya regenerado para volver a emparejar).
 
 ## Calidad
 

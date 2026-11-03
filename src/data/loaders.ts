@@ -1,5 +1,13 @@
 import { normalizeArtistic, normalizeBachillerato, normalizeFP, normalizeGrau } from './normalize'
-import type { ArtisticSuperiorRaw, BachilleratoRaw, FPRaw, GrauRaw, MetaRaw, UniversitatRaw } from '../types/raw'
+import type {
+  ArtisticSuperiorRaw,
+  BachilleratoRaw,
+  FPRaw,
+  GrauRaw,
+  MetaRaw,
+  PonderacionsRaw,
+  UniversitatRaw,
+} from '../types/raw'
 import type { Estudi, EstudiQualsevol } from '../types/estudi'
 
 async function fetchJson<T>(path: string): Promise<T> {
@@ -27,6 +35,7 @@ export const getBachilleratosRaw = memoize(() => fetchJson<BachilleratoRaw[]>('/
 export const getArtisticsRaw = memoize(() => fetchJson<ArtisticSuperiorRaw[]>('/data/artisticos_superiores.json'))
 export const getUniversitats = memoize(() => fetchJson<UniversitatRaw[]>('/data/universidades.json'))
 export const getMeta = memoize(() => fetchJson<MetaRaw>('/data/meta.json'))
+export const getPonderacions = memoize(() => fetchJson<PonderacionsRaw>('/data/ponderaciones.json'))
 
 export const getGraus = memoize(async (): Promise<Estudi<'grau'>[]> => (await getGrausRaw()).map(normalizeGrau))
 export const getFP = memoize(async (): Promise<Estudi<'fp'>[]> => (await getFPRaw()).map(normalizeFP))
